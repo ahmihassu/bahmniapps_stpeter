@@ -1,0 +1,9 @@
+<patient-context patient="patient" show-name-and-image="tabBeingPrinted.printing.showNameAndImage"></patient-context>
+<dashboard ng-show ="stateChange()" patient="::patient" config="::isDashboardPrinting ? tabBeingPrinted : clinicalDashboardConfig.currentTab"
+           disease-templates="diseaseTemplates" section-groups="sectionGroups" visit-history="visitHistory"
+           active-visit-uuid="visitHistory.activeVisit.uuid" visit-summary="visitSummary" enrollment="enrollment">
+</dashboard>
+<a  ng-if="!toggleAppointmentModal && rightState && !isDashboardPrinting" class="add-app-btn" ng-click="goToAppointments()" style="color: white; text-decoration: none;"><p>CREATE APPOINTMENT</p></a>
+<div ng-show ="!stateChange()" ui-view="consultation-content" class="consultation-content"></div>
+<div ng-if="toggleAppointmentModal" ui-view="dashboard-content@appointment-content">>
+</div>

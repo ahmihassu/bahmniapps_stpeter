@@ -1,0 +1,31 @@
+<article class="fl">
+<label> <strong>Name or Identifier</strong> </label>
+<input style="min-width: 200px;" type="text" ng-model="::radCtrl.params.nameOrID"
+                           focus-on="search.startPatientSearch"
+                           ng-change="radCtrl.filterPatientsByCriteria('name')"/>
+
+</article>
+
+
+<article class="fl">
+    <label> <strong>Imaging Request</strong></label>
+    <input style="min-width: 300px;" type="text" ng-model="::radCtrl.params.request" 
+                                            focus-on="search.startPatientSearch"
+                                            ng-change="radCtrl.filterPatientsByCriteria('request')"/>
+</article>
+
+<article class="fl">
+    <label> <strong>Patient Condition</strong> </label>
+    <input style="min-width: 200px;" type="text" ng-model="::radCtrl.params.ptCondition" 
+                                            focus-on="search.startPatientSearch"
+                                            ng-change="radCtrl.filterPatientsByCriteria('ptCondition')"/>
+</article>
+
+<article class="fl">
+    <label> <strong>Location</strong> </label>
+    <input style="min-width: 200px;" type="text" ng-model="::radCtrl.params.location" 
+                                            focus-on="search.startPatientSearch"
+                                            ng-change="radCtrl.filterPatientsByCriteria('location')"/>
+</article>
+
+

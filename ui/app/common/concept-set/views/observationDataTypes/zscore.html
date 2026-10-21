@@ -1,0 +1,25 @@
+<div ng-init="initz()">
+    <!-- Category dropdown removed -->
+
+    <div ng-hide="!actSelected.ent_name">
+        <label>{{actSelected.ent_name}}</label>
+        <input type="number" ng-model="inner_value" ng-disabled="actSelected.thir_name" step="0.01"> {{actSelected.unit}}
+    </div>
+    <div ng-hide="!actSelected.sec_name">
+        <label>{{actSelected.sec_name}}</label>
+        <input type="number" ng-model="sec_value"> {{actSelected.sec_unit}}
+    </div>
+    <div ng-hide="!actSelected.thir_name">
+        <label>{{actSelected.thir_name}}</label>
+        <input type="number" ng-model="thir_value"> {{actSelected.thir_unit}}
+    </div>
+
+    <button ng-click="showlookup()">Calculate Z-score</button>
+    <div ng-if="lookupError" class="text-danger">
+        {{lookupError}}
+    </div>
+    <div ng-if="observation.value !== undefined && observation.value !== null && observation.value !== ''">
+        <label>Result</label>
+        <input type="text" ng-model="observation.value" ng-disabled="true">
+    </div>
+</div>

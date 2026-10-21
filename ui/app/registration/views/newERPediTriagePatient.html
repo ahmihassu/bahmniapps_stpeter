@@ -1,0 +1,134 @@
+<div class="reg-body-wrapper">
+    <div class="simple-form-ui new-patient">
+        <form name="myForm" class="form-horizontal well" ng-submit="create()">
+            <div class="box-container box-container-default">
+                <legend class="registraion_legend first-registraion_legend">
+                    <span class="mylegend"><strong>{{::'EMERGENCY_TRIAGE_PEDI_NEW_PATIENT' | translate}}</strong></span>
+                </legend>
+                <section>
+                    <!-- <article class="form-field existing-patient">
+                        <div class="field-attribute">
+                            <label class="control-label" for="patientID">{{:: patient.primaryIdentifier.identifierType.name}}
+                                <span class="asterick">*</span>
+                            </label>
+                        </div>
+                        <div ng-show="::(patient.primaryIdentifier.hasIdentifierSources() && !patient.primaryIdentifier.hasIdentifierSourceWithEmptyPrefix())" class="field-value" id="patientID">
+                            <select id="identifierPrefix" ng-model="patient.primaryIdentifier.selectedIdentifierSource"
+                                    ng-options="identifierSource.prefix for identifierSource in ::patient.primaryIdentifier.identifierType.identifierSources" ng-change="isAaBET(); patient.primaryIdentifier.generate()"
+                                    >
+                            </select>
+                        </div>
+
+                        <div class="field-value field-value-has-identifier">
+                            <input type="text" id="registrationNumber" ng-model="patient.primaryIdentifier.registrationNumber"
+                                   placeholder="{{:: patient.primaryIdentifier.identifierType.description}}" non-blank="patient.primaryIdentifier.isIdentifierRequired()" pattern-validate
+                                   ng-change="patient.primaryIdentifier.generate()" focus-on="patient.primaryIdentifier.hasOldIdentifier"
+                                   ng-show="patient.primaryIdentifier.hasOldIdentifier || !patient.primaryIdentifier.hasIdentifierSources()"  ng-disabled="isDisabled">
+                            <div ng-show="::patient.primaryIdentifier.hasIdentifierSources() && showEnterID" class="fl">
+                                <div class="field-attribute hasOldIdentifier-field-attribute">
+                                    <label for="hasOldIdentifier" class="control-label">{{::'REGISTRATION_LABEL_ENTER_ID' | translate}}</label>
+                                </div>
+                                <div class="field-value">
+                                    <input class="input-label-inline" ng-show="::showEnterID" type="checkbox" id="hasOldIdentifier" ng-model="patient.primaryIdentifier.hasOldIdentifier"
+                                           ng-change="patient.primaryIdentifier.clearRegistrationNumber()">
+                                </div>
+                            </div>
+                        </div>
+                    </article> -->
+                </section>
+            </div>
+            <div class="box-container box-container-patient-info patient-common-info-container">
+                <section>
+                    <article class="form-field patient-name-wrapper">
+                        <div class="field-attribute">
+                            <label for="patientName">{{ ::'REGISTRATION_LABEL_PATIENT_NAME' | translate}}<span class="asterick">*</span></label>
+                        
+                        </div>
+                        <div class="field-value patient-name" id="patientName">
+                            <span>
+                                <input type="text" id="givenName" ng-model="$parent.patient.givenName" non-blank pattern-validate
+                                my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
+                                data-item-type="personName"
+                                placeholder="First Name" required
+                                title="{{::'REGISTRATION_LABEL_PATIENT_ENTER_NAME' | translate}}">
+                         
+
+                            </span>
+                            <span>
+                                <input type="text" id="middleName" ng-model="$parent.patient.middleName" pattern-validate
+                             my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
+                             data-item-type="personName"
+                             placeholder="Middle Name" required
+                             title="{{::'REGISTRATION_LABEL_PATIENT_ENTER_MIDDLE_NAME' | translate}}" >
+                        </span>
+                        <span>
+                            <input type="text" id="familyName" ng-model="$parent.patient.familyName"  pattern-validate
+                             my-autocomplete source="getAutoCompleteList" response-map="getDataResults"
+                             data-item-type="personName"
+                             placeholder="Last Name" required
+                             title="{{::'REGISTRATION_LABEL_PATIENT_ENTER_LAST_NAME' | translate}}" >
+                      </span>
+                        </div>
+                    </article>
+                </section>
+                <section class="form-field form-field-gender">
+                    <article class="form-field">
+                        <div class="field-attribute">
+                            <label for="gender">{{ ::'REGISTRATION_LABEL_GENDER' | translate}}<span
+                                class="asterick">*</span></label>
+                        </div>
+
+                        <div class="field-value">
+                            <select id="gender" ng-model="patient.gender" title="{{ 'REGISTRATION_LABEL_SELECT_GENDER'|translate }}" required>
+                                <option value="" disabled>Select Gender</option>
+                                <option value="M" >Male</option>
+                                <option value="F" >Female</option>
+                            </select>
+                        </div>
+                    </article>
+                </section>
+                <section class="age-wrapper">
+                    <article class="form-field form-field-ipad" id="age">
+                        <div class="field-attribute">
+                            <label for="ageYears">{{ ::'REGISTRATION_LABEL_AGE' | translate}}<span
+                                class="asterick">*</span></label>
+                        </div>
+
+                        <div class="field-value age-field">
+                            <div class="input-prepend">
+                                <span class="add-on">{{ ::'REGISTRATION_LABEL_YEARS' | translate}}</span>
+                                <input type="number" id="ageYears" name="ageYear" max="120" ng-model="patient.age.years" min="0"
+                                       placeholder="አመት" title="{{ ::'REGISTRATION_LABEL_NUMERIC_YEARS' | translate}}" required
+                                       ng-change="patient.calculateBirthDate()" ng-blur="handleUpdate('age')">
+                            </div>
+                            <div class="input-prepend">
+                                <span class="add-on">{{ ::'REGISTRATION_LABEL_MONTHS' | translate}}</span>
+                                <input type="number" id="ageMonths" name="ageMonths" max="12" ng-model="patient.age.months" min="0"
+                                       placeholder="ወር" title="{{ ::'REGISTRATION_LABEL_NUMERIC_MONTHS' | translate}}"
+                                       ng-change="patient.calculateBirthDate()">
+                            </div>
+                            <div class="input-prepend">
+                                <span class="add-on">{{ ::'REGISTRATION_LABEL_DAYS' | translate}}</span>
+                                <input type="number" id="ageDays" name="ageDays" max="31" ng-model="patient.age.days" min="0"
+                                       title="{{ ::'REGISTRATION_LABEL_NUMERIC_DAYS' | translate}}"
+                                       ng-change="patient.calculateBirthDate()">
+                            </div>
+
+                        </div>
+
+                    </article>
+                    <ng-include src="'views/dob.html'"></ng-include>
+                </section>
+            </div>
+
+            <div class="submit-btn-container clearfix">
+                <div class="retro-date-widget-wrapper fr">
+                    <div class="retro-date-widget-header fr">
+                       <button style="background: #88AF28" type="submit" class="right submit-btn" ng-click="myForm.$valid">{{ 'REGISTRATION_ER_TRIAGE_PEDI_PATIENT'|translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>

@@ -1,0 +1,177 @@
+
+<div class="parentGraph" ng-style="parentGraphStyle">
+    <div class="canvas">
+        <div class="graph" id="mainPlotArea" ng-style="plotAreaStyle">
+            <div ng-repeat="point in points" ng-style="point.style" class="point">
+                <div class="warning fa fa-exclamation" ng-if="point.isWarning"></div>
+            </div>
+            <div ng-repeat="bar in spBars" ng-style="bar.style" class="spBar">
+                <div class="double-ended-line">
+                    <div class="upperTriangle"></div>
+                    <div class="lowerTriangle"></div>
+                </div>
+            </div>
+            <div ng-repeat="line in lines" ng-style="line.line" class="line"></div>
+            <div class="yaxis" ng-style="yaxisStyle">
+                <div ng-repeat="ylabel in ylabels" class="ylabel" ng-style="ylabel.style">
+                    <div class="gradiation" ng-if="!ylabel.hideGradiation"></div>
+                    <div class="label">{{ylabel.label}}</div>
+                </div>
+            </div>
+            <div ng-repeat="point in anPoints" ng-style="point.style" class="point">
+            </div>
+            <div ng-repeat="line in anLines" ng-style="line.line" class="line"></div>
+            <div ng-repeat="token in freeTokens" ng-style="token.style" class="token">
+                <strong>{{token.value}}</strong>
+            </div>
+            <div ng-repeat="bar in invBars" ng-style="bar.style" class="spBar">
+                <div class="double-ended-line">
+                    <svg width="3vh" height="3vh" style="position:absolute; top:-2vh; left:-1.5vh" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M903.232 256l56.768 50.432L512 768 64 306.432 120.768 256 512 659.072z" fill="#000000" /></svg>
+                    <svg width="3vh" height="3vh" style="position:absolute; bottom:-2vh; left:-1.5vh" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M903.232 768l56.768-50.432L512 256l-448 461.568 56.768 50.432L512 364.928z" fill="#000000" /></svg>
+                </div>
+            </div>
+            <div ng-repeat="shadedRegion in shadedRegions" ng-style="shadedRegion"></div>
+            <div class="grid">
+                <div ng-repeat="cell in cells" class="cell" ng-style="cell.style">
+                   <span ng-style="cell.contentStyle">{{cell.content}}</span>
+                </div>
+            </div>
+            <div class="regions" ng-if="graphType == 'fhr'">
+                <div class="danger"></div>
+                <div class="safe"></div>
+                <div class="danger"></div>
+            </div>
+        </div>
+    </div>
+    <div class="xaxis">
+        <div ng-repeat="label in timeLabels track by $index">{{label}}</div>
+    </div>
+
+    <div class="input-wrapper" ng-if="graphType == 'an'">
+        <!-- Chart Start Time -->
+        <div>
+            <label for="anChartTime">Anaesthesia Chart Start Time:</label>
+            <input ng-disabled="anaesthesiaChartStartTime" type="time" name="anChartTime" ng-model="abStc"></input>
+            <button ng-if="!anaesthesiaChartStartTime" ng-click="setAnChartTime(abStc)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+        </div>
+        <span ng-if="anaesthesiaChartStartTime">
+            <label>Anaesthesia Time:</label>
+            <div>
+                From
+                <input ng-disabled="anaesthesiaStartTime" type="time" ng-model="abSt"></input>
+                <button ng-if="!anaesthesiaStartTime" ng-click="setAnTime(abSt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                <span ng-if="anaesthesiaStartTime">
+                    to:
+                    <input ng-disabled="anaesthesiaEndTime" type="time" ng-model="abEt"></input>
+                    <button ng-if="!anaesthesiaEndTime" ng-click="setAnETime(abEt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </span>
+                
+            </div>
+        </span>
+        <span ng-if="anaesthesiaChartStartTime">
+            <label>Surgery Time:</label>
+            <div>
+                From
+                <input ng-disabled="surgeryStartTime" type="time" ng-model="surSt"></input>
+                <button ng-if="!surgeryStartTime" ng-click="setSurTime(surSt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                <span ng-if="surgeryStartTime">
+                    to:
+                    <input ng-disabled="surgeryEndTime" type="time" ng-model="surEt"></input>
+                    <button ng-if="!surgeryEndTime" ng-click="setSurETime(surEt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </span>
+                
+            </div>
+        </span>
+        <span ng-if="anaesthesiaChartStartTime">
+            <label>Intubation Time:</label>
+            <div>
+                From
+                <input ng-disabled="intubationStartTime" type="time" ng-model="intSt"></input>
+                <button ng-if="!intubationStartTime" ng-click="setIntTime(intSt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                <span ng-if="intubationStartTime">
+                    to:
+                    <input ng-disabled="intubationEndTime" type="time" ng-model="intEt"></input>
+                    <button ng-if="!intubationEndTime" ng-click="setIntETime(intEt)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </span>
+                
+            </div>
+        </span>
+        <div ng-if="graphType == 'an'" style="margin-top: 10px; border-top: 1px solid #ccc; padding-top: 8px;">
+            <!-- Session status banner when completed -->
+            <div ng-if="sessionCompleted"
+                style="background-color: rgba(231,76,60,0.1); border: 1px solid #e74c3c; padding: 8px 12px; border-radius: 4px; margin-bottom: 8px;">
+                <strong style="color: #c0392b;"><i class="fa fa-lock"></i> This session is completed and locked (read-only).</strong>
+                <br/>
+                <small style="color: #666;">Click "Start New Session" to begin a new chart entry.</small>
+            </div>
+            <!-- Both action buttons always visible side by side -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+                <button ng-click="completeSession()"
+                    ng-disabled="sessionCompleted"
+                    ng-style="{
+                        'background-color': sessionCompleted ? '#f5c6c6' : '#ffaaaa',
+                        'color': '#000',
+                        'font-weight': 'bold',
+                        'padding': '5px 14px',
+                        'border': '1px solid #cc6666',
+                        'border-radius': '3px',
+                        'cursor': sessionCompleted ? 'not-allowed' : 'pointer',
+                        'opacity': sessionCompleted ? '0.55' : '1'
+                    }">
+                    <i class="fa fa-check-circle"></i> Complete Session
+                </button>
+                <button ng-click="startNewSession()"
+                    ng-style="{
+                        'background-color': '#aaffaa',
+                        'color': '#000',
+                        'font-weight': 'bold',
+                        'padding': '5px 14px',
+                        'border': '1px solid #55aa55',
+                        'border-radius': '3px',
+                        'cursor': 'pointer'
+                    }">
+                    <i class="fa fa-plus-circle"></i> Start New Session
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="inputWrapper" ng-if="roo && !sessionCompleted">
+        <div>
+            <div>
+                <label for="appt">Select a time:</label>
+                <time-select name="appt" observation="currentTime"></time-select>
+            </div>
+            <div ng-if="graphType == 'an' && anaesthesiaChartStartTime">
+                <span>
+                    <label>Blood Pressure:</label>
+                    <input type="number" style="width:3em" ng-model="systolic"></input> / <input type="number" style="width:3em" ng-model="diastolic"></input>
+                    <button ng-click="setBloodPressure(systolic, diastolic)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </span>
+                <div>
+                    <label>Pulse</label>
+                    <input type="number" style="width:3em" ng-model="pulse"></input>
+                    <button ng-click="setPulse(pulse)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </div>
+                <div>
+                    <label>Medication</label>
+                    <select ng-model="medication" ng-options="med.name for med in medications track by med.value"></select>
+                    Amount: <input type="number" style="width:3em" ng-model="medicationAmount"></input>
+                    <button ng-click="setMedication(medication, medicationAmount)" style="background-color: greenyellow; padding: 0;"><i class="fa fa-save"></i></button>
+                </div>
+            </div>
+            <div ng-repeat="inputType in inputTypes">
+                <label><span class="smallRect" ng-style="inputType.style"></span> {{inputType.name}}</label><input
+                    type="number" ng-model="inputType.currentData">
+            </div>
+        </div>
+        <div class="resultMessage" ng-style="resultMessage.style">
+            <div>
+                {{resultMessage.message}}
+            </div>
+        </div>
+        <div class="addPoint" ng-if="graphType != 'an'">
+            <button ng-click="addCurrent()">Add to Graph</button>
+        </div>
+    </div>
+</div>

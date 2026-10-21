@@ -1,0 +1,10 @@
+<!-- Note: The below html brought back from two sub-html into this one html because bm-back-link directive is not getting statechangesuccess event -->
+<div ng-show="!stateChange()">
+    <div class="opd-header-wrapper clinical-consultation" id="opd-tabs" ng-class="{'retro-mode':isInEditEncounterMode()}">
+
+        <div class="opd-header-bottom tabs">
+            <bm-back-links></bm-back-links>
+            <recent-patients ng-if="enablePatientSearch()"></recent-patients>
+        </div>
+    </div>
+</div>

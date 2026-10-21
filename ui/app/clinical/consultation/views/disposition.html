@@ -1,0 +1,80 @@
+<div class="disposition-wrapper">
+    <div class="infoMsgRetrospectiveModeEnabled" ng-if="isRetrospectiveMode()">
+        <i class="fa fa-info-circle"></i>
+        <span ng-bind-html="'DISPOSITION_NOT_ALLOWED_IN_RETROSPECTIVE_MESSAGE'|translate"></span>
+    </div>
+    <div class="box disposition-tab">
+        <form ng-submit="submit()">
+            <label for="dispositionAction">{{ 'DISPOSITION_TYPE_LABEL'|translate }}: </label>
+            <select id="dispositionAction" ng-model="dispositionCode" ng-options="d.code as d.name for d in dispositionActions" ng-change="clearDispositionNote();"  ng-disabled="isRetrospectiveMode()">
+                <option value=""></option>
+            </select>
+            <div class="dispositionNotesWrap">
+                <label class="disposition-notes" for="dispositionNotes">{{ 'DISPOSITION_NOTE_LABEL'|translate }}: </label>
+                <p ng-if="showWarningForEarlierDispositionNote()" class="caution" >
+                    <i class="fa fa-exclamation-sign small"></i>
+                    <span>{{ 'DISPOSITION_NOTE_WILL_BE_REMOVED_WARNING_MESSAGE'|translate }}</span>
+                </p>
+                <textarea id="dispositionNotes" ng-model="dispositionNote.value" ng-disabled="isRetrospectiveMode()" ng-pattern-restrict="^(.(?!(:)))*$" msd-elastic></textarea>
+            </div>
+            <div ng-show="dispositionCode==='ADMIT'">
+                <label>Send to: </label>
+                <select ng-model="selectedWard">
+                    <option ng-repeat="ward in wards">{{ward.ward.display}}</option>
+                </select>
+            </div>
+            <div ng-show="dispositionCode==='TRANSFER'">
+                <label>Send to: </label>
+                <select ng-model="selectedTransferWard">
+                    <option ng-repeat="ward in wards">{{ward.ward.display}}</option>
+                </select>
+            </div>
+            <div ng-if="dispositionCode === 'MOVE_ER'" class="block consultation-notes section-grid">
+                <h2 class="section-title">Move ER Patient</h2>
+                <div style="margin: 15px;">
+                    <div class="input-container">
+                        <label style="margin-left: 15px;">Select destination:</label>
+                        <select id="selected" ng-model="selectedVisitType">
+                            <option ng-repeat="location in visitType | orderBy:'name'" id="{{location.display}}" ng-value="{{location}}">{{location.display}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" ng-click="link(selectedVisitType)">Move Patient</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div ng-show="dispositionCode === 'Elective Surgery Appointment (Elective Surgery Appointment)'"
+                class="block consultation-notes section-grid">
+                <div class="input-container block consultation-notes section-grid" style="margin-right: 20px;">
+                    <label>Select Procedure: </label>
+                    <select id="procedureSelect" ng-model="selectedProcedure">
+                        <option ng-repeat="procedure in procedures">{{procedure.procedureName}}</option>
+                    </select>
+                </div>
+                <!-- <div>
+                    <label for="catagorySelect" style="margin-left: 10px;">Select Catagory: </label>
+                    <select id="catagorySelect" ng-model="selectedCatagory"
+                        ng-change="selectCatagory(selectedCatagory)">
+                        <option value="" disabled>Select a catagory</option>
+                        <option ng-repeat="cat in catagories | orderBy:'name'" id="{{cat.categoryId}}"
+                            ng-value="{{cat}}">{{cat.name}}</option>
+                    </select>
+                </div> -->
+
+                <div class="dispositionNotesWrap">
+                    <label class="disposition-notes" for="dispositionNotes">{{
+                        'ELECTIVE_SURGERY_APPOINTMENT_NOTE'|translate }}: </label>
+                    <textarea id="appointmentNoteMain" ng-model="replicaAppointmentNote.value"
+                        ng-disabled="isRetrospectiveMode()" ng-pattern-restrict="^(.(?!(:)))*$" msd-elastic
+                        maxlength="200"></textarea>
+                    <span ng-if="replicaAppointmentNote.value.length == 250" style="color:red">Appointment Note can't
+                        exceeed 250 characters</span>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>

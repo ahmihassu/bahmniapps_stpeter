@@ -1,0 +1,160 @@
+
+    <div class="clinical-header mobile-menu tabs">
+        <a id="MobileDashboardButton" class="mobile-menu-icon" ng-click="toggleDashboardMenu()">
+            <i class="fa fa-bars fa-white fa-small"></i>
+            <span>Menu : {{search.searchType | titleTranslate}}</span>
+        </a>
+        <ul class="header-tabs consultation-tabs" ng-show="showDashboardMenu">
+            <li class="tab-item" ng-repeat="searchType in search.searchTypes"
+                ng-class="{'tab-selected': search.isSelectedSearch(searchType)}">
+                <a href="" ng-click="switchSearchType(searchType)">
+                    <span>{{::searchType | titleTranslate}} </span>
+                    <span ng-if="search.showPatientCountOnSearchParameter(searchType)">({{search.searchResults.length}})</span>
+                    <span ng-if="(searchType.handler && !search.showPatientCountOnSearchParameter(searchType))" scheduler
+                          watch-on="search.searchParameter" refresh-time="searchType.refreshTime">({{searchType.patientCount}})</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content" ng-if="::search.searchTypes.length">
+        <div class="patient-list-spinner"></div>
+        <span ng-if="search.isCurrentSearchLookUp()">
+            <form name="filterPatients" ng-submit="filterPatientsAndSubmit()">
+                <div class="search-wrapper">
+                    <input type="text" id="patientIdentifier" ng-model="::search.searchParameter"
+                           focus-on="search.startPatientSearch"
+                           ng-change="search.filterPatients()"/>
+                    <span ng-if="search.searchResults.length > 0 && search.shouldShowQueueAction()">Current Token: <b>{{ search.searchResults[0].currentToken }}</b></span>
+                    <button class="right confirm" type="button" ng-if="search.searchResults.length > 0 && search.shouldShowQueueAction()" ng-click="handleCallNext(search.searchResults[0])">
+                        {{'PATIENT_QUEUE_CALL_NEXT' | translate }}
+                    </button>
+                </div>
+            </form>
+        </span>)">
+                    <span>{{::searchType | titleTranslate}} </span>
+                    <span ng-if="search.showPatientCountOnSearchParameter(searchType)">({{search.searchResults.length}})</span>
+                    <span ng-if="(searchType.handler && !search.showPatientCountOnSearchParameter(searchType))" scheduler
+                          watch-on="search.searchParameter" refresh-time="searchType.refreshTime">({{searchType.patientCount}})</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clinical-header mobile-menu tabs">
+        <a id="MobileDashboardButton" class="mobile-menu-icon" ng-click="toggleDashboardMenu()">
+            <i class="fa fa-bars fa-white fa-small"></i>
+            <span>Menu : {{search.searchType | titleTranslate}}</span>
+        </a>
+        <ul class="header-tabs consultation-tabs" ng-show="showDashboardMenu">
+            <li class="tab-item" ng-repeat="searchType in search.searchTypes"
+                ng-class="{'tab-selected': search.isSelectedSearch(searchType)}">
+                <a href="" ng-click="switchSearchType(searchType)">
+                    <span>{{::searchType | titleTranslate}} </span>
+                    <span ng-if="search.showPatientCountOnSearchParameter(searchType)">({{search.searchResults.length}})</span>
+                    <span ng-if="(searchType.handler && !search.showPatientCountOnSearchParameter(searchType))" scheduler
+                          watch-on="search.searchParameter" refresh-time="searchType.refreshTime">({{searchType.patientCount}})</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+<section class="reg-search-wrapper">
+    <section class="reg-search">
+        <article class="search-seperator-l" ng-if="::patientIdentifierSearchConfig.show">
+            <form name="searchByIdForm" ng-submit="searchById()" class="simple-form-ui clearfix" >
+                <label for="registrationNumber"><strong>{{ ::'REGISTRATION_LABEL_PATIENT_ID' | translate}}</strong></label>
+                <div class="search-patient-id fl">
+                    <input tabindex="2" class="fl" type="text" id="registrationNumber"
+                           ng-model="searchParameters.registrationNumber" focus-me="true"
+                           placeholder="የካርድ ቁጥር አስገባ">
+                    <div class="reg-srch-btn fl">
+                        <button tabindex="3" type="submit" ng-disabled="!searchParameters.registrationNumber" >{{ ::'REGISTRATION_LABEL_SEARCH' | translate}}</button>
+                    </div>
+                </div>
+
+            </form>
+        </article>
+        <article class="search-seperator-r">
+            <form name="searchByNameForm" ng-submit="searchPatients()" class="simple-form-ui" >
+                <article class="fl" ng-show="::programAttributesSearchConfig.show">
+                    <label for="name"><strong>{{ ::programAttributesSearchConfig.label | translate}}</strong></label>
+                    <input tabindex="7" type="text" id="programAttribute" ng-model="searchParameters.programAttributeFieldValue" placeholder="{{ ::programAttributesSearchConfig.placeholder | translate}}">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.firstName" placeholder="ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_FATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.fatherName" placeholder="የአባት ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_GFATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.grandFatherName" placeholder="የአያት ስም">
+                </article>
+
+
+                <article class="fl">
+                    <div class="reg-srch-btn">
+                        <button tabindex="8" type="submit" ng-disabled="disableSearchButton()">{{ ::'REGISTRATION_LABEL_SEARCH' | translate}}</button>
+                    </div>
+                </article>
+            </form>
+
+        </article>
+    </section>
+
+    <div class="note-container no-search-results" ng-if="noResultsMessage">
+        <div class="note warning">
+            <div class="text">
+                <p>{{noResultsMessage | translate:patientIdentifier }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="resultsPresent()" infinite-scroll="nextPage()" infinite-scroll-listen-for-event="list:filtered" class="registraition-search-results-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th><strong>{{ ::'REGISTRATION_LABEL_ID' | translate}}</strong></th>
+                <th ng-repeat = "type in ::extraIdentifierTypes track by $index"><strong>{{type.name}}</strong></th>
+                <th><strong>{{ ::'REGISTRATION_LABEL_NAME' | translate}}</strong></th>
+                <th ng-repeat = "field in ::personSearchResultsConfig.fields track by $index"><strong>{{::convertToTableHeader(field)}}</strong></th>
+                <th><strong>{{ ::'REGISTRATION_LABEL_GENDER' | translate}}</strong></th>
+                <th><strong>{{ ::'REGISTRATION_LABEL_AGE' | translate}}</strong></th>
+                <th ng-repeat = "field in ::addressSearchResultsConfig.fields"><strong>{{::convertToTableHeader(getAddressColumnName(field))}}</strong></th>
+                <th><strong>{{ ::'REGISTRATION_LABEL_REGISTRATION_DATE' | translate}}</strong></th>
+                <th ng-if="::programAttributesSearchConfig.show"><strong>{{::convertToTableHeader(programAttributesSearchConfig.label)}}</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="result in results | filter : {givenName:searchParameters.firstName, middleName:searchParameters.fatherName, familyName:searchParameters.grandFatherName}">
+                <td>
+                    <a tabindex="{{ :: 8 + $index + 1 }}" ng-if="::(searchActions.length > 0)" ng-click="forPatient(result).doExtensionAction(searchActions[0])">
+                        {{::result.identifier || 'Not Assigned'}}
+                    </a>
+                </td>
+                <td ng-repeat = "type in ::extraIdentifierTypes track by $index">
+                    {{::result.extraIdentifiers[type.name]}}
+                </td>
+
+                <td>{{::result.givenName}} {{::result.middleName}} {{::result.familyName}}</td>
+                <td ng-repeat = "field in ::personSearchResultsConfig.fields track by $index">{{::result.customAttribute[field] || ""}}</td>
+                <td>{{::result.gender}}</td>
+                <td>{{::result.age}}</td>
+                <td ng-repeat = "field in ::addressSearchResultsConfig.fields">{{::result.addressFieldValue[field] || ""}}</td>
+                <td>{{::result.dateCreated | bahmniDate}}</td>
+                <td ng-if="::programAttributesSearchConfig.show">{{getProgramAttributeValues(result) | bahmniDateInStrictMode}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="loader" ng-show="loadingMoreResults()"></div>
+
+    <div class="note-container no-more-results" ng-if="noMoreResultsPresent">
+        <div class="note warning">
+            <div class="text">
+                <p>{{ ::'REGISTRATION_LABEL_NO_RESULTS' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</section>

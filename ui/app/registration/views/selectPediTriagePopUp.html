@@ -1,0 +1,11 @@
+<div class="retro-date-widget-panel">
+    <div class="input-container">
+    <label class="retro-date-label">Select Triage Type</label>
+    <select class="form-control" ng-model="selectedTriageType" ng-init="selectedTriageType='Pediatrics Emergency'" style="height: 40px;" ng-options="id for id in triageType">
+    </select>
+    </div>
+    <div class="retro-widget-button-wrapper">
+    <button type="submit" class="retro-widget-button ok_btn start-visit-button" ng-click="selectedPRTriage(selectedTriageType)">Open -></button>
+    <!-- <button type="submit" class="retro-widget-button ok_btn start-visit-button" ng-click="selectedPediTriage(selectedTriageType, true)">Open -></button> -->
+    </div>
+    </div>

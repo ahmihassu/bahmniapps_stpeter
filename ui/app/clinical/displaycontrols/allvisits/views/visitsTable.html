@@ -1,0 +1,39 @@
+<section class="block patientInformation">
+    <h2 class="section-title" ng-hide="::params.translationKey" ng-if="::params.title">
+        {{::params.title}}
+    </h2>
+    <h2 class="section-title" ng-show="::params.translationKey" >
+        {{::params.translationKey|translate}}
+    </h2>
+
+    <div>
+        <p class="placeholder-text" ng-if="!hasVisits()">{{::noVisitsMessage}}</p>
+        <table class="visits dashboard-table" id="visitDisplayTable" ng-if="::hasVisits()">
+            <tbody>
+            <tr id="eachVisit" ng-repeat="visit in ::visits | limitTo: params.maximumNoOfVisits">
+                <td class="name" width="50%">
+                    <a ng-if="::!visit.isMedico() || (visit.isMedico() && userIsMedico)" class="visit" ng-click="openVisit(visit)">
+                        <span ng-if="::visit.isActive()">{{::visit.startDatetime | bahmniDate}}</span>
+                        <span ng-if="::!visit.isActive() && !hasMatchingVisitType(visit)" ng-show="userIsMedico || (!visit.isMedico() && !userIsMedico)">{{::visit.startDatetime | bahmniDate}}</span>
+                        <span ng-if="::!visit.isActive() && !hasMatchingVisitType(visit)" ng-show="userIsMedico || (!visit.isMedico() && !userIsMedico)">- {{::visit.stopDatetime | bahmniDate }}</span>
+                    </a>
+                    <a class="visit" ng-if="::!visit.isMedico() || (!visit.isMedico() && !userIsMedico)">
+                        <span ng-if="::!visit.isActive() && hasMatchingVisitType(visit)" ng-hide="!userIsMedico && visit.isMedico() && !userIsMedico">{{::visit.startDatetime | bahmniDate}}</span>
+                        <span ng-if="::!visit.isActive() && hasMatchingVisitType(visit)" ng-hide="!userIsMedico && visit.isMedico() && !userIsMedico">- {{::visit.stopDatetime | bahmniDate }}</span>
+                    </a>
+                    <span ng-if="::visit.isMedico() && !userIsMedico" style="color: red;">This is a sealed Medico Legal case. You require higher privilege to access</span>
+                </td>
+                <td id="visitType">
+                    <span class="visit-type-icons">
+                        <span class="medico-legal-scales-icon" ng-if="visit.isMedico()"
+                              title="Medico Legal Case" role="img" aria-label="Medico Legal Case">&#x2696;&#xFE0F;</span>
+                        <i class="fa fa-star current-visit-icon visit-type-current-star" ng-if="visit.isActive()"
+                           title="Current Visit" aria-hidden="true"></i>
+                    </span>
+                    <span class="visit-type-text">{{::translateVisitTypes(visit.getVisitType())}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

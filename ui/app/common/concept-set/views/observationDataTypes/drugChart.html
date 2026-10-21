@@ -1,0 +1,74 @@
+<div style="overflow:auto; position: relative; width: 100%; height: auto; background-color:aliceblue">
+    <table ng-init="sortMedicationsAlphabetically()" class="fixed-table" ng-repeat="medication in allMedications track by $index" style="margin-top: 10px;  border:1px solid rgba(0,0,0,.15); box-shadow:0 2px 6px rgba(0,0,0,.12); border-radius:4px;">
+        <caption>
+            <h3><b>{{medication.display}}</b></h3>
+             <span style="min-width:260px; white-space:nowrap;">
+                <div style="display:flex; align-items:center; gap:8px; justify-content:flex-end;">
+                    <button type="button" ng-click="prevPage(medication)" ng-disabled="medication.currentPage === 0">◀ Prev</button>
+                    <span ng-if="medication.totalPages > 1">Page {{medication.currentPage + 1}} / {{medication.totalPages}}</span>
+                    <button type="button" ng-click="nextPage(medication)" ng-disabled="medication.currentPage >= medication.totalPages - 1">Next ▶</button>
+                </div>
+            </span>
+                <span ng-if="!fixed">
+                    <h4 style="display:inline-block; margin:0 10px 0 0; vertical-align:middle;">Drug Options:</h4>
+                    <span style="display:inline-block; vertical-align:middle;">
+                        <select ng-disabled="medication.prevStatus == 'discontinue'" ng-model="medication.selectedStatus" ng-change="valueChanged()">
+                            <option value="">- - -</option>
+                            <option ng-repeat="status in medication.status" value="{{status}}">{{status}}</option>
+                        </select>
+                    </span>
+                    <textarea ng-model="medication.note" ng-change="valueChanged()" ng-if="medication.selectedStatus == 'escalate' || medication.selectedStatus == 'de-escalate'" id="$index"></textarea>
+                </span>
+        </caption>
+       <thead>
+        <tr ng-if="medication.prevStatus && medication.prevStatus !== unhold">
+           <td ng-if="medication.prevStatus !== 'unhold'" style="font-weight: bolder; color: red;">{{medication.prevStatus | uppercase}}</td>
+           <td ng-if="medication.prevNote">{{medication.prevNote}}</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <!-- <td ng-if="!fixed">Today</td>
+            <td ng-repeat = "date in medication.datesOfObs track by $index"><b style="font-size: large;">{{date}}</b></td> -->
+             <td ng-if="!fixed">Today</td>
+            <!-- pagination controls -->
+            <td ng-repeat = "date in (medication.visibleDates || []) track by $index"><b style="font-size: large;">{{date}}</b></td>
+
+        </tr>
+    </thead>
+        <tr style="height: 50px" ng-repeat="time in medication.time">
+            <td>{{time.toBeGiven}}</td>
+             <td ng-if="!fixed">
+                <button ng-disabled="medication.prevStatus == 'discontinue' || medication.prevStatus == 'hold'" 
+                        ng-class="{'active': time.givenSelected}" 
+                        ng-click="time.givenSelected = !time.givenSelected; (time.givenSelected ? updateValue(medication.display,time,'YES') : updateValue(medication.display, time,'UNSET'))">{{time.givenLabel}}</button>
+                <button ng-disabled="medication.prevStatus == 'discontinue' || medication.prevStatus == 'hold'" 
+                        ng-class="{'active': time.notGivenSelected}" 
+                        ng-click="time.notGivenSelected = !time.notGivenSelected; (time.notGivenSelected ? updateValue(medication.display,time,'NO') : updateValue(medication.display, time,'UNSET'))">{{time.notGivenLabel}}</button>
+                <br/>
+                <textarea ng-model="time.reason" ng-change = "valueChanged()" ng-if="time.notGivenSelected" id="$index"></textarea>
+             </td>
+            <td ng-repeat="date in (medication.visibleDates || []) track by $index">
+                <span ng-repeat = "prevValue in time.prevValues">
+                    <span ng-mouseenter="prevValue._hover = true" ng-mouseleave="prevValue._hover = false" style="position:relative; display:inline-block;">
+                        <b ng-if="date == prevValue.date">{{prevValue.given}} {{prevValue.givenBy}}</b>
+                        <div ng-if="date == prevValue.date && prevValue.reason && !printing" ng-show="prevValue._hover"
+                             style="position:absolute; top:100%; left:0; z-index:1000; background:#fff; border:1px solid rgba(0,0,0,.15); padding:6px 8px; min-width:140px; box-shadow:0 2px 6px rgba(0,0,0,.2);">
+                            {{prevValue.reason}}
+                        </div>
+                    </span>
+                </span>
+            </td>
+        </tr>
+        </tr>
+    </table>
+    </div>
+
+<style>
+    @media print {
+        .fixed-table { box-shadow: none !important; border-radius: 0 !important; width: 100% !important;}
+
+        .fixed-table td {
+          outline: 1px solid #bbb !important;
+        }
+}
+</style>

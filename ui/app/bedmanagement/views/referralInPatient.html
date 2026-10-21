@@ -1,0 +1,130 @@
+<div id="referralPatient" class="referral-patient"
+    style="font-size: 18px; padding: 20px; margin: 20px; border: 1px solid #ccc; border-radius: 8px;">
+    <h6 style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">Referral Patient Detail</h6>
+
+    <div class="referral-info" style="margin-bottom: 20px;">
+
+        <!-- Mode of arrival -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Mode of arrival:</strong>
+            <span style="margin-left: 5px;">{{ referral.modeOfArrival || 'Not entered' }}</span>
+        </div>
+
+        <!-- Patient Diagnosis -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Patient Diagnosis:</strong>
+            <span style="margin-left: 5px;">{{ referral.patientDiagnosis || 'Not entered' }}</span>
+        </div>
+
+        <!-- Referred From -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Referred From:</strong>
+            <span style="margin-left: 5px;">{{ referral.fromLocation || 'Not entered' }}</span>
+        </div>
+
+        <!-- Referral Reason -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Referral Reason:</strong>
+            <span style="margin-left: 5px;">{{ referral.referralReason || 'Not entered' }}</span>
+        </div>
+
+        <!-- Communication -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Triage Communication:</strong>
+            <span style="margin-left: 5px;">{{ referral.triageCommunication || 'Not entered' }}</span>
+        </div>
+
+        <!-- Time of Communication -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Time of Communication:</strong>
+            <span style="margin-left: 5px;">{{ referral.timeOfCommunication | date:'medium' || 'Not entered' }}</span>
+        </div>
+
+        <!-- Time of Arrival -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Time of Arrival:</strong>
+            <span style="margin-left: 5px;">{{ referral.timeOfArrival | date:'medium' || 'Not entered' }}</span>
+        </div>
+
+        <!-- Referring Physician -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Name of Physician who Referred:</strong>
+            <span style="margin-left: 5px;">{{ referral.referringPhysician || 'Not entered' }}</span>
+        </div>
+
+        <!-- Name of referring facility -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Name of referring facility:</strong>
+            <span style="margin-left: 5px;">{{ referral.referringFacility || 'Not entered' }}</span>
+        </div>
+
+        <!-- Liaison office telephone -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Liaison office telephone:</strong>
+            <span style="margin-left: 5px;">{{ referral.liaisonTelephone || 'Not entered' }}</span>
+        </div>
+
+        <!-- Is the diagnosis the same? -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Is the diagnosis the same as the referring facility's, or different?:</strong>
+            <span style="margin-left: 5px;">{{ referral.diagnosisSame || 'Not entered' }}</span>
+        </div>
+
+        <!-- Condition of patient on arrival -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Condition of patient on arrival:</strong>
+            <span style="margin-left: 5px;">{{ referral.conditionOnArrival || 'Not entered' }}</span>
+        </div>
+
+        <!-- was the referral necessary or unnecessary -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Was the referral necessary or unnecessary:</strong>
+            <span style="margin-left: 5px;">{{ referral.referralNecessary || 'Not entered' }}</span>
+        </div>
+
+        <!-- was the referral complete? -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Was the referral complete?:</strong>
+            <span style="margin-left: 5px;">{{ referral.referralComplete || 'Not entered' }}</span>
+        </div>
+
+        <!-- Referring Health Professional name and phone number -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Referring Health Professional name and phone number:</strong>
+            <span style="margin-left: 5px;">{{ referral.referringHP || 'Not entered' }}</span>
+        </div>
+
+        <!-- Receiving liaison officer name and phone number -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Receiving liaison officer name and phone number:</strong>
+            <span style="margin-left: 5px;">{{ referral.receivingLO || 'Not entered' }}</span>
+        </div>
+
+        <!-- Commenting Health Professional name and phone number -->
+        <div style="margin-bottom: 15px;">
+            <strong style="display: block; margin-bottom: 5px;">Commenting Health Professional name and phone number:</strong>
+            <span style="margin-left: 5px;">{{ referral.commentingHP || 'Not entered' }}</span>
+        </div>
+
+        <!-- if other specify -->
+       <div style="margin-bottom: 15px;" ng-if="referral.fromLocation.toLowerCase().includes('other')">
+    <strong style="display: block; margin-bottom: 5px;">If other specify:</strong>
+    <span style="margin-left: 5px;">{{ referral.referralFromOther || 'Not entered' }}</span>
+</div>
+
+    </div> <!-- end .referral-info -->
+
+    <!-- Action Buttons -->
+    <div class="actions" style="text-align: right; margin-top: 30px;">
+        <div split-button=""
+             options="printOptions"
+             option-text="buttonText"
+             option-click="printReferral"
+             primary-option="defaultPrintOption"
+             class="right"
+             style="display: inline-block; margin-right: 10px;">
+        </div>
+        <!-- Save button removed -->
+    </div>
+
+</div>

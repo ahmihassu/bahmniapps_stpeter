@@ -1,0 +1,41 @@
+<div class="reg-header-wrapper header-wrapper">
+    <header class="reg-header" ng-controller="NavigationController">
+        <ul class="top-nav fl">
+            <a class="back-btn" accesskey="h" href="../home/index.html" ng-click="onHomeNavigate($event)"><i
+                    class="fa fa-home"></i></a>
+            <li>
+                <a ng-click="goTo('/erSearch')"><i class="fa-search fa fa-white small"></i>
+                    <span class="nav-link" ng-bind-html="SEARCH"></span>S<u>e</u>arch</a>
+            </li>
+            <li>
+                <a ng-click="goTo('patient/newERTriage')"><i class="fa-plus fa fa-white small"></i>
+                    <span class="nav-link">Create <u>N</u>ew</span>
+                </a>
+            </li>
+        </ul>
+        <div class="reg-header-right fr">
+            <div ui-view="headerExtension" class="print-action-items fl"></div>
+            <span class="btn-user-info change-location  fl">{{ currentUser.person.personName.givenName +" " +
+                currentUser.person.personName.familyName}}</span>
+            <button class="btn-user-info fr">
+                <i class="fa fa-user-md fa-white small"></i>
+                <i class="fa fa-caret-down fa-white mini"></i>
+            </button>
+            <ul>
+                <li>
+                    <a><i class="fa fa-user fa-white small"></i><span>{{:: currentUser.username}}</span></a>
+                </li>
+                <li>
+                    <i class="fa fa-map-marker fa-white small"></i><span>{{:: currentUser.currentLocation |
+                        translate}}</span>
+                </li>
+                <li>
+                    <a log-out><i class="fa fa-power-off fa-white small"></i><span
+                            class="nav-link">{{::'REGISTRATION_LABEL_LOGOUT' | translate}}</span></a>
+                </li>
+            </ul>
+        </div>
+    </header>
+</div>
+<div ng-include src="'../common/ui-helper/messages.html'"></div>
+<div ui-view="content" class="container"></div>

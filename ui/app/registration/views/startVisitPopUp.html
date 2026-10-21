@@ -1,0 +1,15 @@
+<div class="retro-date-widget-panel">
+    <div class="input-container">
+        <label class="retro-date-label">{{'REGISTRATION_SELECT_VISIT_TYPE'|translate }}</label>
+        <!-- <select id ="selected" ng-model="selectedVisitType">
+            <option ng-repeat="visitType in visitControl.visitTypes | orderBy:'name'" ng-if="visitTypeFilter(visitType)" id ="{{visitType.name}}" ng-value="{{visitType}}">{{visitType.name}}</option>
+        </select> -->
+        <select id ="selected" ng-model="selectedVisitType" ng-change="selectedVisitTypeChanged(selectedVisitType)">
+            <option ng-repeat="visitType in visitControl.visitTypes | orderBy:'name'" id ="{{visitType.name}}" ng-if="visitType.notSeenPatientsPerVisit != undefined && visitType.seenPatientsPerVisit != undefined" ng-value="{{visitType}}">{{visitType.name}} --- [{{visitType.notSeenPatientsPerVisit}}]   [{{visitType.seenPatientsPerVisit}}]</option>
+            <option ng-repeat="visitType in visitControl.visitTypes | orderBy:'name'" id ="{{visitType.name}}" ng-if="visitType.notSeenPatientsPerVisit == undefined && visitType.seenPatientsPerVisit == undefined" ng-value="{{visitType}}">{{visitType.name}}</option>
+        </select>
+    </div>
+    <div class="retro-widget-button-wrapper">
+        <button type="submit" class="retro-widget-button ok_btn start-visit-button" ng-click="startVisit(selectedVisitType)">{{ 'REGISTRATION_START_VISIT'|translate}} to {{selectedVisitType}}</button>
+    </div>
+</div>

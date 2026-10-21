@@ -1,0 +1,40 @@
+<div class="reg-body-wrapper">
+    <div class="edit-patient simple-form-ui">
+        <form name="myForm"  ng-submit="submit($event)">
+            <div class="box-container box-container-default">
+                <legend class="registraion_legend first-registraion_legend" ng-class="{'removeLegend': patient.primaryIdentifier == undefined}">
+                    <span class="mylegend"><strong>{{patient.primaryIdentifier.identifierType.name}}: <span id="patientIdentifierValue">{{patient.primaryIdentifier.identifier}}</span></strong></span>
+                    <span ng-show= "isDigitized" class="right"><strong>{{::'REGISTRATION_LABEL_SCANNED' | translate}}</strong></span>
+                </legend>
+                <div class="photo-container-wrapper" ng-if="!disablePhotoCapture">
+                    <span class="photo-container">
+                            <img class="patient-image" ng-src="{{patient.image}}" fallback-src="../images/blank-user.gif">
+                            <div ng-model="patient.image" capture-photo class="capture-photo-btn"></div>
+                     </span>
+                </div>
+                <article class="form-field">
+                        <div class="field-attribute">
+                        <label class="control-label">{{::'REGISTRATION_LABEL_REGISTRATION_DATE' | translate}}</label>
+                        </div>
+    
+                        <div class="field-value">
+                            <span class="uneditable-input text-only">{{patient.registrationDate | bahmniDate}}</span>
+                       </div>
+                </article>
+            </div>
+            <ng-include src="'views/patientcommon.html'"></ng-include>
+            <div class="box-container-default box-container">
+                <label class="control-label" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;color:#000000;">
+                    <strong class="ng-binding">Medico Legal Case</strong>
+                </label>
+                <div style="display: flex; align-items: center; gap: 10px;margin:1px;color:#363463;">
+                    <label for="medicoLegal" style="margin-bottom: 0; cursor: pointer;">Medico Legal Case Visit</label>
+                    <input type="checkbox" id="medicoLegal" name="medicoLegal" ng-model="isMedicoLegal"
+                        ng-change="toggleMedicoLegalCase()" />
+                </div>
+            </div>
+            <patient-action></patient-action>
+        </form>
+        <br>
+    </div>
+    </div>

@@ -1,0 +1,15 @@
+<div class="cparentGraph" style="width:100%; min-width: max(50vw, 750px);">
+    <div class="ccanvas">
+        <div class="cgraph">
+            <div class="cgrid">
+                <div ng-repeat="cell in squares" ng-class="cell.value" class = "ccell" ng-click="cycle(cell)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xaxis">
+        <div ng-repeat = "label in timeLabels track by $index">{{label}}</div>
+    </div>
+</div>
+
+

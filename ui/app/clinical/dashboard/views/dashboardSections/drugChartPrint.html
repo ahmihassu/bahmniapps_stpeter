@@ -1,0 +1,26 @@
+<html>
+<body>
+    <div class="print-wrapper print-patient-summary">
+        <div class="print-header">
+            <h1 style="text-align: center;">
+                <img class="logo" src="../images/alert_logo.jpg" width="75" height="75" alt="logo"></h1>
+        </div>
+        <div class="print-header">
+            <h1 style="text-align: center;">
+                <span style="font-family:nyala;">Alert Comprehensive Specialized Hospital</span>
+            </h1>
+            <h2 style="text-align: center;">{{title}}</h2>
+        </div>
+        <div class="template-container" style="margin-top: 0px; padding-top: 0px;">
+            <section class="block">
+                <u>{{formDate | bahmniDateTime}}</u><br>
+                <br> <strong><u>Name:</u> <i>{{patient.name}}</i><span>    <u>Age:</u> <i>{{patient.age}}</i> </span><u>Gender:</u> <i>{{patient.gender}}</i></strong> 
+            </section>
+
+            <section style="width: 1000px">
+                <drug-chart observation = "::obs" patient="::patient" visit-uuid="visitUuid" fixed="true" printing="true"></drug-chart>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

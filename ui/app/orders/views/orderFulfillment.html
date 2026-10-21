@@ -1,0 +1,51 @@
+<div>
+    <div>
+        <div ng-repeat="order in orders" class="concept-set-group section-grid order-fullfilment-contianer">
+            <div id="{{order.orderUuid}}" style="position: relative;">
+                <div class="concept-set-title" ng-click="toggleShowOrderForm(order)">
+                    <h2 ng-style="{ background: order.paymentStatus || '#f7a3a3'}" class="section-title">
+                        <i class="fa fa-caret-right" ng-hide="order.showForm"></i>
+                        <i class="fa fa-caret-down" ng-show="order.showForm"></i>
+                        <span>{{order.concept.shortName || order.concept.name}}</span>
+                        <span ng-if="!order.paymentStatus" style ="margin-left: 30px; padding:4px; color:white" >Not Payed</span>
+                        <!--<span class="fr">-->
+                        <!--<span class="has-notes fa fa-file-text-o" ng-if="order.commentToFulfiller"></span>-->
+                        <!--<span class="order-provider-nane">{{order.provider}}</span>-->
+                        <!--<span class="order-created-date">{{order.orderDate | bahmniDateTime}}</span>-->
+                        <!--</span>-->
+
+                        <span ng-if="!order.hasObservations" class="new-order-highlight">New</span>
+                    </h2>
+                </div>
+                <div ng-if="order.showForm && order.paymentStatus">
+                    <!-- <orders-control patient="patient" order-uuid="order.orderUuid" config="config" message="message"
+                                    show-title="false"></orders-control>
+                    <div ng-if="order.studyUID">
+                        <a  style="font-size: 18px; padding-left:30px;" ng-click="openImage(order.studyUID)" ng-click="openImage(order.studyUID)" target="_blank">View the patient radiology study here</a>
+                    </div> 
+                    <div ng-if="!order.studyUID">
+                        <p  style="font-size: 18px; padding-left:30px;">There is no radiology study for this order</p>
+                    </div>  -->   
+                               
+                    <div>
+                        <i ng-if="::order.commentToFulfiller" class="fa fa-comments"></i>
+                        <span>{{order.commentToFulfiller}}</span>
+                    </div>
+                        <concept-set patient="patient" ng-if="order.showForm && isUserPrivilegedForFulfillment()"
+                                 concept-set-name="fulfillmentForm"
+                                 observations="order.bahmniObservations" show-title="false" section-id="order.orderUuid">
+                        </concept-set>
+                        <concept-set patient="patient" ng-if="order.showForm"
+                                 concept-set-name="procedureForm"
+                                 observations="order.bahmniObservations" show-title="false" section-id="order.orderUuid">
+                        </concept-set>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div ng-show="orders && orders.length == 0">
+        <div class="placeholder-text">{{getEmptyMessage()}}</div>
+    </div>
+</div>
+<dashboard patient="patient" config="dashboardConfig" section-groups="sectionGroups" active-visit-uuid="visitSummary.uuid" visit-summary="visitSummary"></dashboard>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kidus Petros Specialized Hospital - Referral Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            line-height: 1.4;
+            color: #333;
+        }
+        .hospital-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+        }
+        .hospital-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+        .form-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #34495e;
+            margin-top: 5px;
+        }
+        .patient-info {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .info-item {
+            width: 50%;
+            margin-bottom: 5px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            display: inline-block;
+            width: 100px;
+        }
+        .provider-section {
+            margin: 10px 0;
+            text-align: right;
+            font-weight: bold;
+        }
+        .date-time {
+            text-align: right;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #fff;
+            background-color: #2c3e50;
+            font-size: 16px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+        }
+        .field-row {
+            display: flex;
+            padding: 6px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .field-label {
+            font-weight: bold;
+            width: 250px;
+            color: #444;
+        }
+        .field-value {
+            flex: 1;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777;
+            font-size: 11px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hospital-header">
+        <div class="hospital-name">Kidus Petros Specialized Hospital</div>
+        <div class="form-title">Referral Patient Summary</div>
+    </div>
+    
+    <div class="patient-info">
+        <div class="info-item">
+            <span class="info-label">Patient MRN:</span>
+            <span>{{ patient.identifier || patient.uuid }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Name:</span>
+            <span>{{ patient.name }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">Age/Sex:</span>
+            <span>{{ patient.age }} / {{ patient.gender }}</span>
+        </div>
+        <div class="info-item">
+    <span class="info-label">Location:</span>
+    <span>{{ locationName || 'Kidus Petros Hospital' }}</span>
+</div>
+    </div>
+    
+    <div class="date-time">
+        Printed on: {{ today | date:'dd-MMM-yyyy, h:mm a' }}
+    </div>
+
+    <div class="section">
+        <h2>1. CLINICAL DETAILS</h2>
+        
+        <div class="field-row">
+            <div class="field-label">Patient Diagnosis:</div>
+            <div class="field-value">{{ referral.patientDiagnosis || 'Not entered' }}</div>
+        </div>
+        
+        <div class="field-row">
+            <div class="field-label">Referred From:</div>
+            <div class="field-value">{{ referral.fromLocation || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row" ng-if="referral.fromLocation.toLowerCase().indexOf('other') !== -1">
+            <div class="field-label">Specified Facility:</div>
+            <div class="field-value">{{ referral.referralFromOther || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Mode of Arrival:</div>
+            <div class="field-value">{{ referral.modeOfArrival || 'Not entered' }}</div>
+        </div>
+        
+        <div class="field-row">
+            <div class="field-label">Referral Reason:</div>
+            <div class="field-value">{{ referral.referralReason || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Condition on Arrival:</div>
+            <div class="field-value">{{ referral.conditionOnArrival || 'Not entered' }}</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>2. COMMUNICATION & TIMING</h2>
+        
+        <div class="field-row">
+            <div class="field-label">Communication Status:</div>
+            <div class="field-value">{{ referral.triageCommunication || 'Not entered' }}</div>
+        </div>
+        
+        <div class="field-row">
+            <div class="field-label">Time of Communication:</div>
+            <div class="field-value">{{ referral.timeOfCommunication || 'Not entered' }}</div>
+        </div>
+        
+        <div class="field-row">
+            <div class="field-label">Time of Arrival:</div>
+            <div class="field-value">{{ referral.timeOfArrival || 'Not entered' }}</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. PERSONNEL & LOGISTICS</h2>
+        
+        <div class="field-row">
+            <div class="field-label">Referring Physician:</div>
+            <div class="field-value">{{ referral.referringPhysician || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Referring Health Professional:</div>
+            <div class="field-value">{{ referral.referringHP || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Receiving Liaison Officer:</div>
+            <div class="field-value">{{ referral.receivingLO || 'Not entered' }}</div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Liaison Office Telephone:</div>
+            <div class="field-value">{{ referral.liaisonTelephone || 'Not entered' }}</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; display: flex; justify-content: space-around;">
+        <div style="text-align: center; width: 200px; border-top: 1px solid #000; padding-top: 5px;">
+            Physician Signature
+        </div>
+        <div style="text-align: center; width: 200px; border-top: 1px solid #000; padding-top: 5px;">
+            Official Stamp
+        </div>
+    </div>
+    
+    <div class="footer">
+        Generated by Bahmni EMR | Kidus Petros Specialized Hospital | User: {{ provider || 'Super Man' }}
+    </div>
+</body>
+</html>

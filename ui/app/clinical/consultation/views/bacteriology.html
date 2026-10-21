@@ -1,0 +1,176 @@
+<div class="bacteriology-container" focus-on-input-errors>
+    <div ng-class="{'disableBacteriologyInRetroMode':isRetrospectiveMode()}">
+        <div class="infoMsgRetrospectiveModeEnabled" ng-if="isRetrospectiveMode()">
+            <i class="fa fa-info-circle"></i>
+            <span ng-bind-html="'BACTERIOLOGY_NOT_ALLOWED_IN_RETROSPECTIVE_MESSAGE'|translate"></span>
+        </div>
+        <div ng-repeat="newSpecimen in newSpecimens track by $id(newSpecimen)" class="sample-container">
+            <form class="form">
+                <section class="section-grid">
+                    <div class="section-title-wrapper clearfix">
+                        <h2 class="section-title fl">{{'BACTERIOLOGY_TAB_TITLE_KEY' | translate}}</h2>
+                        <input type="button" value="{{'BACTERIOLOGY_BUTTON_CLEAR_KEY' | translate}}"
+                               ng-confirm-click="deleteSpecimen(newSpecimen)" confirm-message="{{ 'CLEAR_CONFIRMATION_KEY' | translate }}" class="fr add-sample-btn" ng-hide="isOnDashboard">
+
+                        <button ng-click="createNewSpecimen()" class="fr add-more-concept-set add-more-btn btn-small" ng-hide="isOnDashboard">
+                            <i class="fa fa-plus"></i>
+                            {{'BACTERIOLOGY_BUTTON_ADD_SAMPLE_KEY' | translate}}
+                        </button>
+                        <button class="confirm fr" ng-click="saveBacteriologySample(newSpecimen)" accesskey="s" ng-if="isOnDashboard">
+                            <span class="text ng-binding" ng-bind-html="'CLINICAL_SAVE_TRANSLATION_KEY'| translate"></span>
+                        </button>
+                    </div>
+                    <div class="box concept-set-container" id="{{ scrollOnEdit }}">
+                    <section class="form-field-inline" style="margin-bottom: 12px;">
+                            <article class="form-field">
+                                <div class="field-attribute">
+                                    <label for="sample-id">{{'BACTERIOLOGY_SAMPLE_COLLECTION_KEY' | translate}} </label>
+                                </div>
+                                <div class="field-value">
+                                     <button ng-disabled="newSpecimen.voided || newSpecimen.cancelled || !isUserPrivilegedToCollectSample()" 
+                                        ng-class="{'active': newSpecimen.identifier}"
+                                        ng-click="sampleCollected(newSpecimen)">{{newSpecimen.collectionLabel}}</button>
+                                    <button type="button"
+                                            ng-show="canShowCancelOrderButton(newSpecimen)"
+                                            ng-disabled="newSpecimen.voided"
+                                            class="cancel-order-btn"
+                                            ng-click="cancelBacteriologySample(newSpecimen)">
+                                        {{'BACTERIOLOGY_BUTTON_CANCEL_ORDER_KEY' | translate}}
+                                    </button>
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="form-field-inline" ng-if="(newSpecimen.cancelled || ((newSpecimen.identifier || '').toLowerCase().indexOf('cancelled') === 0)) && (newSpecimen.cancellationReason || newSpecimen.voidedReason || ((newSpecimen.identifier || '').indexOf(':') > -1))">
+                            <article class="form-field">
+                                <div class="field-attribute">
+                                    <label>{{'BACTERIOLOGY_CANCELLED_REASON_DISPLAY_KEY' | translate}}</label>
+                                </div>
+                                <div class="field-value">
+                                    <span>{{newSpecimen.cancellationReason || newSpecimen.voidedReason || ((newSpecimen.identifier || '').split(':').slice(1).join(':').trim())}}</span>
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="form-field-inline" ng-if="newSpecimen.showCancelReasonInput">
+                            <article class="form-field">
+                                <div class="field-attribute">
+                                    <label for="cancel-order-reason">
+                                        {{'BACTERIOLOGY_CANCEL_REASON_LABEL_KEY' | translate}}
+                                        <span class="asterick">*</span>
+                                    </label>
+                                </div>
+                                <div class="field-value">
+                                    <textarea id="cancel-order-reason"
+                                              rows="2"
+                                              ng-model="newSpecimen.cancelReasonDraft"
+                                              placeholder="{{'BACTERIOLOGY_CANCEL_REASON_PLACEHOLDER_KEY' | translate}}"></textarea>
+                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                        <button type="button" class="confirm" ng-click="confirmCancelBacteriologySample(newSpecimen)">
+                                            {{'BACTERIOLOGY_CONFIRM_CANCEL_ORDER_KEY' | translate}}
+                                        </button>
+                                        <button type="button" ng-click="abortCancelBacteriologySample(newSpecimen)">
+                                            {{'BACTERIOLOGY_KEEP_ORDER_KEY' | translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        </section>
+
+                        <fieldset ng-disabled="!canEditRequestSection(newSpecimen)" style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px;">
+                            <section class="form-field-inline">
+                            <article class="form-field">
+                                <div class="field-attribute">
+                                    <label for="sample-date">{{'BACTERIOLOGY_ORDER_REQUESTED_DATE_KEY' | translate}}</label>
+                                </div>
+                                <div class="field-value">
+                                    <span id="sample-date">{{newSpecimen.dateCollected | date: 'dd/MM/yyyy'}}</span>
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="form-field-inline">
+                            <article class="form-field right-form-field">
+                                <div class="field-attribute">
+                                    <label for="order-category">{{'BACTERIOLOGY_ORDER_CATEGORY_LABEL' | translate}}
+                                        <span class="asterick">*</span>
+                                    </label>
+                                </div>
+                                <div class="field-value button-select-grid">
+                                    <button type="button"
+                                            ng-repeat="category in orderCategoryOptions track by $index"
+                                            ng-class="{'active': newSpecimen.orderCategory === category}"
+                                            ng-style="getSpecialOrderButtonStyle(newSpecimen.orderCategory === category)"
+                                            ng-click="selectOrderCategory(newSpecimen, category)">
+                                        {{category}}
+                                    </button>
+                                </div>
+                            </article>
+                        </section>
+
+                        <section class="form-field-inline" ng-if="newSpecimen.orderCategory">
+                            <article class="form-field right-form-field">
+                                <div class="field-attribute">
+                                    <label for="order-type">
+                                        {{'BACTERIOLOGY_TYPE_OF_SAMPLE_LABEL' | translate}}
+                                        <span class="asterick">*</span>
+                                    </label>
+                                </div>
+                                <div class="field-value button-select-grid" ng-class="{'illegalValue': newSpecimen.isTypeDirty()}">
+                                    <div style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:6px; width:100%; max-width:100%;">
+                                        <button type="button"
+                                                ng-repeat="orderType in getOrderTypeOptions(newSpecimen) track by $index"
+                                                ng-class="{'active': newSpecimen.orderType === orderType}"
+                                                ng-style="getTypeSampleButtonStyle(newSpecimen.orderType === orderType)"
+                                                ng-click="selectOrderType(newSpecimen, orderType)">
+                                            {{orderType}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        </section>
+
+                        <!-- Old generic sample type selector intentionally removed.
+                             New flow is: Order Category -> Type of Sample / Order Type -> (Pathology only) Technique. -->
+
+                        <!-- <section class="form-field-inline">
+                            <article class="form-field">
+                                <div class="field-attribute">
+                                    <label for="sample-id">{{'BACTERIOLOGY_SAMPLE_ID_KEY' | translate}} </label>
+                                </div>
+                                <div class="field-value">
+                                    <input id="sample-id" type="text" ng-model="newSpecimen.identifier" ng-disabled="isRetrospectiveMode()" tabindex="1">
+                                </div>
+                            </article>
+                        </section> -->
+
+                        <div ng-show="newSpecimen.showAdditionalAttributes" class="additionalAttributes">
+                            <concept-set show-title="false" patient="patient" concept-set-name="additionalAttributesConceptName"
+                                         observations="newSpecimen.sample.additionalAttributes"></concept-set>
+                        </div>
+                    </fieldset>
+                    
+                        <div ng-if="canEditResultSection()">
+                            <concept-set  patient="patient" concept-set-name="resultsConceptName" collapse-inner-sections="!newSpecimen.atLeastOneResult()"
+                                          observations="newSpecimen.report.results"></concept-set>
+                        </div>
+                </div>
+                </section>
+            </form>
+        </div>
+        <div ng-repeat="savedSpecimen in savedSpecimens" class="savedSpecimens-container clearfix" ng-hide="isOnDashboard">
+            <div class="fl savedSpecimens-text">
+                <span>{{getDisplayName(savedSpecimen)}}</span>
+                <span ng-if="getOrderCategoryDisplayName(savedSpecimen)">({{getOrderCategoryDisplayName(savedSpecimen)}})</span>
+                <span>#{{savedSpecimen.identifier}}</span>
+                <span>{{ 'BACTERIOLOGY_ADDED_ON_KEY' | translate }} {{savedSpecimen.dateCollected | date: 'dd/MM/yy'}}</span>
+            </div>
+            <div class="fr savedSpecimens-action">
+                <i class="fa fa-pencil" ng-if="!isRetrospectiveMode()" ng-click="editSpecimen(savedSpecimen)"></i>
+
+                <i class="fa fa-remove" ng-confirm-click="deleteSpecimen(savedSpecimen)" confirm-message="{{ 'REMOVE_CONFIRMATION_KEY' | translate }}"></i>
+            </div>
+        </div>
+    </div>
+</div>
+

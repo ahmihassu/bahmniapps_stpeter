@@ -1,0 +1,95 @@
+<div ng-if="!isPaired" style="overflow:auto;  position: relative; width: 100%; height: auto;">
+    <table class="fixed-table">
+        <caption ng-bind="::observation.label"></caption>
+        <div style="margin-top: 3px; margin-bottom: 2px;">
+        <a style="font-size: 15px" ng-click="navigateResults('backward')"> <p style="font-size: 15px;"> &lt; Previous</p></a>
+        <a style="position: absolute; right: 0; top: 0;" ng-click="navigateResults('forward')"><p style="font-size: 15px;">Next &gt;</p> </a>
+        </div>
+        <thead>
+            <tr>
+                <th></th>
+                <th ng-if="!fixed"><b>Now</b> <button ng-if="::(observation.canAddMore && observation.canAddMore())"
+                        ng-click="resetConcept()" style="float: right;">Add New</i></button></th>
+                <th ng-repeat="date in datesOfObs">{{date}}</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="conceptElement in conceptElements track by $index">
+            <td ng-if="!conceptElement.concept.set || conceptElement.concept.conceptClass == 'Concept Details'">
+                <span ng-if="!fixed">{{conceptElement.concept.displayString}}</span>
+                <span ng-if="fixed"> <b>{{conceptElement.concept.shortName || conceptElement.concept.name}}</b></span>
+            </td>
+            <td
+                ng-if="!fixed && (!conceptElement.concept.set || conceptElement.concept.conceptClass == 'Concept Details')">
+                <concept observation="conceptElement" root-observation="observation"  patient="::patient"
+                    show-title="::false" concept-set-required="conceptSetRequired" hide-abnormal-button="hideAbnormalButton"></concept>
+            </td>
+            <td ng-if="!conceptElement.concept.set || conceptElement.concept.conceptClass == 'Concept Details'"
+                ng-repeat="date in datesOfObs">
+                <span ng-repeat="prevValue in conceptElement.prevValues">
+                    <b ng-if="date == prevValue.obsDate" ng-style="prevValue.isAbnormal">{{prevValue.value}}</b>
+                </span>
+            </td>
+            <td ng-if="conceptElement.concept.set && conceptElement.concept.conceptClass != 'Concept Details'"
+                style="background-color: rgba(0,0,0,0.1);">
+                <span ng-if="!fixed"><b>{{conceptElement.concept.displayString}}</b></span>
+                <span ng-if="fixed"> <b>{{conceptElement.concept.shortName || conceptElement.concept.name}}</b></span>
+            </td>
+            <td ng-if="conceptElement.concept.set && conceptElement.concept.conceptClass != 'Concept Details'"
+                style="background-color: rgba(0,0,0,0.1);">
+            </td>
+            <td ng-if="conceptElement.concept.set && conceptElement.concept.conceptClass != 'Concept Details'"
+                ng-repeat="date in datesOfObs" style="background-color: rgba(0,0,0,0.1);">
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div ng-if="isPaired" style="overflow:auto;  position: relative; width: 100%; height: auto;">
+    <table class="fixed-table">
+        <caption ng-bind="::observation.label"></caption>
+        <thead>
+            <tr>
+                <th></th>
+                <th ng-if="!fixed"><b>Now</b></th>
+                <th ng-if="!fixed"></th>
+                <th ng-repeat="date in datesOfObs">{{date}}</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td ng-if="!fixed">Left</td>
+                <td ng-if="!fixed">Right</td>
+                <td ng-repeat="date in datesOfObs">
+                    <div style="display: flex; justify-content: space-around;">
+                        <span>Left</span>
+                        <span>Right</span>
+                    </div>
+                </td>
+            </tr>
+        </thead>
+        <tr ng-repeat="conceptElement in conceptElements track by $index">
+            <td ng-if="conceptElement.concept.set && conceptElement.concept.conceptClass != 'Concept Details'"
+                style="background-color: rgba(0,0,0,0.1);">
+                <span ng-if="!fixed"><b>{{conceptElement.concept.displayString}}</b></span>
+                <span ng-if="fixed"> <b>{{conceptElement.concept.shortName || conceptElement.concept.name}}</b></span>
+            </td>
+            <td ng-if="!fixed" ng-repeat="member in conceptElement.groupMembers track by $index">
+                <concept collapse-inner-sections="collapseInnerSections" observation="member" root-observation="row"
+                    at-least-one-value-is-set="atLeastOneValueIsSet" patient="::patient" show-title="::false"
+                    concept-set-required="conceptSetRequired" concept-set-name="::conceptSetName"
+                    hide-abnormal-button="hideAbnormalButton"></concept>
+            </td>
+            <td ng-repeat="date in datesOfObs">
+                <span ng-repeat="member in conceptElement.groupMembers">
+                    <span ng-repeat="prevValue in member.prevValues">
+                        <span style="display: flex; justify-content: space-around;">
+                            <span><b ng-if="date == prevValue.obsDate && prevValue.name.includes('left')">{{prevValue.value}}</b></span>
+                            <span><b ng-if="date == prevValue.obsDate && prevValue.name.includes('right')">{{prevValue.value}}</b></span>
+                        </span>
+                        <!-- <b ng-if="date == prevValue.obsDate" style="padding-right: 50px">{{prevValue.value}}</b> -->
+                    </span>
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>

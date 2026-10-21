@@ -1,0 +1,84 @@
+<div class="reg-body-wrapper visit-patient-page">
+    <div class="non-printable" xmlns="http://www.w3.org/1999/html">
+        <div>
+            <form name="myForm" ng-init="disableFormSubmitOnEnter()" class="visit-patient">
+                <div class="box-container">
+
+                    <legend class="registraion_legend first-registraion_legend">
+                        <span class="mylegend"><strong>{{ ::'REGISTRATION_LABEL_SUMMARY' | translate}}</strong></span>
+                    </legend>
+                    <section>
+                        <div class="form-field fl">
+                            <div class="field-attribute">
+                                <label for="patientId">{{ ::patient.primaryIdentifier.identifierType.name }} : </label>
+                            </div>
+                            <div class="field-value">
+                                <label
+                                    class="control-label"><strong>{{::patient.primaryIdentifier.identifier}}</strong></label>
+                            </div>
+                            <div class="field-attribute">
+                                <label class="control-label">Age: </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::patient.age.years}} Years
+                                        {{::patient.age.months}} Months {{::patient.age.days}} Days</strong></label>
+                            </div>
+                            <div class="field-attribute">
+                                <label class="control-label">Gender: </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::patient.gender}}</strong></label>
+                            </div>
+                        </div>
+
+                        <div class="form-field fl">
+                            <div class="field-attribute">
+                                <label class="control-label" for="patientName">{{ ::'REGISTRATION_LABEL_PATIENT_NAME' |
+                                    translate}} : </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::patient.name}}</strong></label>
+                            </div>
+                            <div class="field-attribute">
+                                <label class="control-label">Test Ordered By : </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::providedBy}}</strong></label>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+        
+                <div class="box-container">
+
+                    <section class="observation-section" style ="width: 2000px;" ng-if="context">
+                        <div ng-repeat="conceptSet in ::availableConceptSets" class="concept-set-group">
+                            
+                                <div class="clearfix">
+                                    <article class="fl obs-section-form">
+                                        <concept-set concept-set-name="::conceptSet.options.conceptName"
+                                            required="::conceptSet.options.required" patient="patient"
+                                            observations="observations" obs-scope="::conceptSet.options.scope"
+                                            show-title="false" concept-set-focused="::$index === 0"></concept-set>
+                                    </article>
+                                </div>
+                            
+                        </div>
+                    </section>
+                    <div style="text-align: right; bottom: 40px;right: 40px;">
+                        <strong>{{currentUser.person.personName.givenName +" " +
+                            currentUser.person.personName.familyName+ " "}}</strong></div>
+
+                </div>
+
+
+                <div class="submit-btn-container">
+                    <div class="right">
+                        <button ng-click="submit()" class="start-visit-button right">Save</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<style>
+    .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 0.9em;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #669999;
+    padding: 6px 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.data-table th {
+    background-color: #e0f0f0;
+    color: #336666;
+    font-weight: 600;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9fcfc;
+}
+
+.data-table tbody tr:hover {
+    background-color: #dceded;
+}
+
+</style>
+
+<div style="background-color: #669999; color: white; padding: 10px; text-align: left;">
+  <h1 style="margin: 0; font-size: 1.2em; color: white;">Progress Sheet Form</h1>
+</div>
+
+<div style="overflow-x: auto; width: 100%;">
+  <table class="data-table">
+    <thead>
+<tr>
+  <th></th>
+  <th ng-repeat="tsKey in timestampKeys">{{ formattedDates[tsKey] }}</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="concept in concepts">
+  <td><strong>{{ concept }}</strong></td>
+  <td ng-repeat="tsKey in timestampKeys">
+    <span ng-if="(data[tsKey] | filter:{concept_name: concept}).length > 0">
+      <span ng-init="item = (data[tsKey] | filter:{concept_name: concept})[0]">
+        <span ng-if="item.value_text">{{ item.value_text }}</span>
+        <span ng-if="item.value_numeric">{{ item.value_numeric }}</span>
+        <span ng-if="item.value_datetime && item.value_datetime.length">{{ item.value_datetime.join('-') }}</span>
+        <span ng-if="item.value_coded">{{ item.coded_value_name }}</span>
+      </span>
+    </span>
+    <span ng-if="(data[tsKey] | filter:{concept_name: concept}).length == 0">-</span>
+  </td>
+</tr>
+</tbody>
+
+  </table>
+  </div>

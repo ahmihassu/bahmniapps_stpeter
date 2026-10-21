@@ -1,0 +1,24 @@
+
+<div class="treatment-page treatment-page-container order-list clearfix">
+    <div class="dashboard-section-wrapper clearfix">
+        <section class="treatment-section-left fl">
+            <div ui-view="addTreatment"></div>
+        </section>
+        <section class="treatment-section-right clearfix">
+            <new-drug-orders treatments="treatments"
+                             treatment-config="treatmentConfig"></new-drug-orders>
+            <new-order-group treatments="orderSetTreatments" order-set-name="newOrderSet.name"></new-order-group>
+            <section  ng-if = "allergies && allergies.length > 0" class="block observation section-grid" style = "padding: 10px;">
+                <div>
+                    <h2>Allergies</h2>
+                    <div ng-repeat = "allergy in allergies">
+                        {{allergy.display.split(':')[1]}}
+                    </div>
+                </div>
+            </section>
+            
+            <div ng-if="drugOrderHistoryView === 'default'" ui-view="defaultHistoryView"></div>
+            <div ng-if="drugOrderHistoryView === 'custom'" ui-view="customHistoryView"></div>
+        </section>
+    </div>
+</div>

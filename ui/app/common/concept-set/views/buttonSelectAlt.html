@@ -1,0 +1,18 @@
+<div ng-class="{'multi-select-widget' : observation.isMultiSelect}"
+     class="multi-select-button-group">
+    <select ng-model="multivalue" ng-change="select(multivalue)">
+        <option ng-repeat="answer in ::observation.getPossibleAnswers() track by $index" 
+                ng-disabled="observation.disabled"
+                ng-if="isSet(answer)"
+                value="{{answer}}">
+                 <div >&#10004;</div>{{getAnswerDisplayName(answer)| titleTranslate}}
+        </option>
+        <option ng-repeat="answer in ::observation.getPossibleAnswers() track by $index" 
+                ng-disabled="observation.disabled"
+                ng-if="!isSet(answer)"
+                value="{{answer}}">
+                 {{::getAnswerDisplayName(answer) | titleTranslate}}
+        </option>
+        <!--<span class="">{{::getAnswerDisplayName(answer) | titleTranslate}}</span>-->
+    </select>
+</div>

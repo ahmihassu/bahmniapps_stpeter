@@ -1,0 +1,437 @@
+@charset "UTF-8";
+
+/*BAHMNI css files*/
+@import "vendor/normalize";
+
+@import "bahmni-helper/variables";
+@import "bahmni-helper/base";
+@import "bahmni-helper/fonts";
+@import "bahmni-helper/font-awesome";
+@import "bahmni-helper/custom-fonts";
+
+@import "bahmni-components/grid";
+@import "bahmni-components/uiHelper";
+@import "bahmni-components/loader";
+@import "bahmni-components/header";
+@import "bahmni-components/navigation";
+@import "bahmni-components/forms";
+@import "bahmni-components/buttons";
+@import "bahmni-components/autoComplete";
+@import "bahmni-components/inPageTabs";
+@import "bahmni-components/ngDialog";
+@import "bahmni-components/gallery";
+@import "bahmni-components/templateController";
+@import "bahmni-components/patientControlPanel";
+@import "bahmni-components/tooltip";
+@import "bahmni-components/splitButton";
+@import "bahmni-components/table";
+@import "bahmni-components/typography";
+
+@import "clinical/clinicalIndex";
+
+@import "common/bahmniGlobal";
+@import "common/confirmBox";
+@import "common/notifications";
+@import "common/directives";
+@import "common/angularFix";
+
+
+@import "bahmni-layout/layout";
+@import "bahmni-layout/retroMode";
+
+
+@import "document-upload/upload";
+
+@import "adt/adt";
+@import "adt/wardLayout";
+
+@import "ot/ot";
+@import "ot/otSurgical";
+@import "ot/otCalendar";
+@import "ot/otWeeklyCalendar";
+
+@import "admin/admin";
+
+@import "common/noTouch";
+
+@import "clinical/patientSearchDesktop";
+@import "clinical/observationsDesktop";
+@import "clinical/_draggableDiv";
+//@import "clinical/treatmentDesktop";
+@import "clinical/drugOrderTemplate";
+
+
+
+@import "reports/reports";
+
+@import "bedmanagement/bedmanagement";
+@import "bedmanagement/wardLayout";
+
+
+/* Ensure the input is completely hidden */
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  
+  /* Label styled as a button */
+  .placeholder.btn {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  .placeholder.btn i.fa-plus {
+    color: #563d7c;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+  
+  .placeholder.btn:hover {
+    background-color: #e2e2e2;
+    border-color: #999;
+  }
+  
+  .add-app-btn {
+    position: fixed;
+    right: 0;
+    top: 55px;
+    background: #99C915;
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    margin: 0 10px 10px 0;
+    font-size: 13px;
+    z-index: 1000;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .add-app-btn a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .add-app-btn a:hover, .add-app-btn a:focus, .add-app-btn a:visited, .add-app-btn a:active {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .add-app-btn:hover {
+    background: #87B512;
+  }
+  
+  
+  .create-new-app-wrapper {
+    top: 52px;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    height: calc(100vh - 52px);
+    cursor: not-allowed;
+    overflow: hidden;
+    z-index: 12;
+  }
+  
+  /* line 246, appointments/_manageAppointments.scss */
+  .create-new-app-container {
+    position: absolute;
+    cursor: default;
+    width: 450px;
+    background: #fff;
+    height: calc(100vh - 32px);
+    right: 0;
+    top: 0;
+    overflow: auto;
+    padding: 10px 10px 0;
+    box-sizing: border-box;
+    z-index: 10;
+    -webkit-box-shadow: -5px 10px 20px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 10px 20px 0 rgba(0, 0, 0, 0.5);
+  }
+  /* line 260, appointments/_manageAppointments.scss */
+  .create-new-app-container a {
+    float: right;
+    font-size: 25px;
+    color: #ADA5A5;
+  }
+  /* line 265, appointments/_manageAppointments.scss */
+  .create-new-app-container h2 {
+    float: left;
+    clear: none;
+    color: #212121;
+  }
+  /* line 270, appointments/_manageAppointments.scss */
+  .create-new-app-container #create-appointment-form {
+    clear: both;
+  }
+  /* line 274, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p {
+    overflow: hidden;
+    margin: 0 0 10px;
+    position: relative;
+  }
+  /* line 278, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p .search-icon-app {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  /* line 283, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p label {
+    clear: left;
+    float: left;
+    width: 115px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 15px;
+  }
+  /* line 291, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p input, .create-new-app-container #addNewAppointment p form .input-prepend .add-on, form .input-prepend .create-new-app-container #addNewAppointment p .add-on, .create-new-app-container #addNewAppointment p .form .input-prepend .add-on, .form .input-prepend .create-new-app-container #addNewAppointment p .add-on, .create-new-app-container #addNewAppointment p textarea, .create-new-app-container #addNewAppointment p select {
+    float: left;
+    width: calc(100% - 130px);
+    box-sizing: border-box;
+    height: 35px;
+    border-radius: 5px;
+  }
+  /* line 298, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p textarea {
+    min-height: 100px;
+  }
+  /* line 301, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p input[type=checkbox], .create-new-app-container #addNewAppointment p form .input-prepend [type=checkbox].add-on, form .input-prepend .create-new-app-container #addNewAppointment p [type=checkbox].add-on, .create-new-app-container #addNewAppointment p .form .input-prepend [type=checkbox].add-on, .form .input-prepend .create-new-app-container #addNewAppointment p [type=checkbox].add-on {
+    width: auto;
+    height: auto;
+  }
+  /* line 305, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p .slots-remaining {
+    display: inline-block;
+    width: calc(100% - 130px);
+    margin-left: 125px;
+    padding-top: 10px;
+    color: #0BB118;
+  }
+  /* line 312, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p.walk-in-app {
+    margin-left: 125px;
+  }
+  /* line 314, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment p.walk-in-app .walk-in-text {
+    display: inline-block;
+    margin-top: 3px;
+  }
+  /* line 320, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div {
+    overflow: hidden;
+    margin: 0 0 10px;
+    position: relative;
+  }
+  /* line 324, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div p {
+    width: 115px;
+    float: left;
+  }
+  /* line 327, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div p label {
+    clear: left;
+    float: left;
+    width: 115px;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 15px;
+  }
+  /* line 336, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div div {
+    display: inline-block;
+    float: left;
+    width: calc(100% - 130px);
+    padding: 8px 10px;
+    box-sizing: border-box;
+  }
+
+
+// Queue widget: fixed bottom-right, popout card on hover (clinical)
+.queue-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.queue-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px 24px;
+  margin-bottom: 4px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.queue-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0 0 12px 0;
+}
+
+.queue-card-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: #1a73e8;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.queue-card-call-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #28a745;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.queue-card-call-btn:hover:not(:disabled) {
+  background: #218838;
+}
+
+.queue-card-call-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.queue-trigger-btn {
+  padding: 8px 16px;
+  height: 40px;
+  font-size: 14px;
+  color: #fff;
+  background: #699;
+  border: 1px solid #699;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.queue-trigger-btn:hover {
+  background: #588;
+  border-color: #588;
+}
+
+  /* line 342, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div div ul {
+    list-style: none;
+  }
+  /* line 345, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div div ul li label {
+    float: left;
+  }
+  /* line 348, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment div div ul li input, .create-new-app-container #addNewAppointment div div ul li form .input-prepend .add-on, form .input-prepend .create-new-app-container #addNewAppointment div div ul li .add-on, .create-new-app-container #addNewAppointment div div ul li .form .input-prepend .add-on, .form .input-prepend .create-new-app-container #addNewAppointment div div ul li .add-on {
+    margin-left: 5px;
+  }
+  /* line 355, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment .warning-message {
+    display: inline-block;
+    width: calc(100% - 130px);
+    margin-left: 125px;
+    color: #ffac2e;
+  }
+  /* line 360, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment .warning-message span {
+    font-weight: bolder;
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+  /* line 365, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment .warning-message p {
+    padding: 0 25px;
+  }
+  /* line 369, appointments/_manageAppointments.scss */
+  .create-new-app-container #addNewAppointment input:disabled, .create-new-app-container #addNewAppointment form .input-prepend .add-on:disabled, form .input-prepend .create-new-app-container #addNewAppointment .add-on:disabled, .create-new-app-container #addNewAppointment .form .input-prepend .add-on:disabled, .form .input-prepend .create-new-app-container #addNewAppointment .add-on:disabled {
+    color: #ccc;
+  }
+  /* line 373, appointments/_manageAppointments.scss */
+  .create-new-app-container .create-appointment-action-btn {
+    float: right;
+    line-height: 1;
+    font-size: 14px;
+    background: #E6E6E6;
+    color: #171717;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    margin: 0 10px 10px 0;
+    width: 85px;
+    text-align: center;
+  }
+  /* line 387, appointments/_manageAppointments.scss */
+  .create-new-app-container button.create-appointment-action-btn {
+    background: #99C915;
+    color: #fff;
+  }
+  /* line 391, appointments/_manageAppointments.scss */
+  .create-new-app-container a.create-appointment-action-btn {
+    margin-right: 5px;
+  }
+  
+  .header-bar {
+      background-color: #669999;
+      padding: 15px 0;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    
+    .header-bar p {
+      margin: 0;
+      color: white;
+      font-size: 1.75em;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    
+    
+  /* Existing styles remain unchanged */
+  
+  /* New animations */
+  @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Enhanced styles */
+    .create-new-app-container {
+      animation: fadeIn 0.3s ease-out forwards;
+      animation: slideInRight 0.3s ease-out forwards;
+    }

@@ -1,0 +1,184 @@
+<div class="create-new-app-wrapper">
+    <div class="create-new-app-container">
+        <span ng-click="navigateToPreviousState()">
+            <a>
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </a>
+        </span>
+
+        <form ng-submit="save()" id="create-appointment-form" name="createAppointmentForm">
+            <section class="header-bar">
+                <p style="text-align: center;">CREATE APPOINTMENT</p>
+            </section>
+            <section id="addNewAppointment">
+
+                <p>
+                    <label>{{'APPOINTMENT_CREATE_PATIENT_NAME' | translate}}<sup class="asterick">*</sup></label>
+
+                    <input type="text"
+                           id="patientID"
+                           min-length="minCharLengthToTriggerPatientSearch"
+                           ng-model="appointment.patient.label"
+                           ng-class="{'illegalValue': isInvalid}"
+                           placeholder="{{'PLACEHOLDER_APPOINTMENT_CREATE_SEARCH_PATIENT' | translate }}"
+                           non-blank
+                           ng-disabled="isEditMode()"
+                           required
+                           readonly
+                    />
+                </p>
+
+                <p>
+                    <label for="service">
+                        {{'APPOINTMENT_SERVICE' | translate}}<sup class="asterick">*</sup>
+                    </label>
+                    <select id="service" ng-model="appointment.service"
+                            ng-options="service.name for service in appointmentCreateConfig.services | filter: {speciality:{uuid:appointment.speciality.uuid}}:true"
+                            ng-change="onServiceChange()"
+                            ng-disabled="isEditMode() && (!isEditAllowed() || !enableEditService)"
+                            required>
+                        <option disabled value="">{{ ::'PLACEHOLDER_SERVICE' | translate}}
+                        </option>
+                    </select>
+                </p>
+
+                <p>
+                    <label for="location">
+                        {{'APPOINTMENT_SERVICE_LOCATION_KEY' | translate}}<sup class="asterick">*</sup>
+                    </label>
+                    <select id="location" ng-model="appointment.location"
+                            ng-options="location.display for location in appointmentCreateConfig.locations | orderBy:'display'"
+                            ng-disabled="isEditMode() && isFieldEditNotAllowed()"
+                            required>
+                        <option value="">{{ ::'PLACEHOLDER_SERVICE_LOCATION' | translate}}
+                        </option>
+                    </select>
+                </p>
+
+                <div>
+                    <p>
+                        <label>
+                           APPOINTED BY: 
+                        </label>
+                    </p>
+                    <div>
+                        <!--<input type="button" ng-repeat="appProvider in appointment.providers" value="{{ appProvider.name || appProvider.person.display }}"-->
+                        <!--ng-click="removeProviderFromAttendees(appProvider)"/>-->
+                        <ul>
+                            <li ng-repeat="appProvider in appointment.providers" ng-show="appProvider.response != 'CANCELLED'">
+                                <label>{{ appProvider.name || appProvider.person.display }}</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>
+                    <label for="date">
+                        {{'APPOINTMENT_DATE' | translate}}<sup class="asterick">*</sup>
+                    </label>
+                    <ethiopian-date-selector id="date"
+                                            date="appointment.date" handler="checkAvailability()"
+                                            min-date="today"
+                                            required="true"
+                                            change="checkAvailability()"
+                                            disabled="isEditMode() && !isEditAllowed()"
+                    ></ethiopian-date-selector>
+                    <span class="slots-remaining"></span>
+                </p>
+                <p class="warning-message" ng-if="warning.holiday">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span> {{::holiday_warning_message}} </span>
+                </p>
+                <p>
+                    <label for="startTimeID">
+                        {{'APPOINTMENT_START_TIME_KEY' | translate}}<sup class="asterick">*</sup>
+                    </label>
+                    <input type="text" 
+                           id="startTimeID" 
+                           min-length=1
+                           bahmni-autocomplete
+                           ng-model="appointment.startTime"
+                           source="endTimeSlots"
+                           ng-change="onKeyDownOnStartTime()"
+                           ng-blur="onSelectStartTime()"
+                           ng-class="{'illegalValue': isInvalid}"
+                           placeholder="{{'PLACEHOLDER_APPOINTMENT_TIME_FORMAT' | translate }}"
+                           non-blank
+                           ng-disabled='(!appointment.date || (isEditMode() && isFieldEditNotAllowed()))'
+                           ng-pattern="timeRegex"
+                           ng-model-options="{allowInvalid: true}"
+                           required
+                           readonly />
+                </p>
+                <p class="warning-message" ng-if="warning.startTime">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span> {{'APPOINTMENT_CREATION_START_TIME_WARNING' | translate}} </span>
+                </p>
+
+                <p>
+                    <label for="endTimeID">
+                        {{'APPOINTMENT_END_TIME_KEY' | translate}}<sup class="asterick">*</sup>
+                    </label>
+                    <input type="text"
+                           id="endTimeID"
+                           min-length=1
+                           bahmni-autocomplete
+                           ng-model="appointment.endTime"
+                           source="endTimeSlots"
+                           ng-change="onKeyDownOnEndTime()"
+                           on-select="onSelectEndTime"
+                           ng-blur="onSelectEndTime()"
+                           ng-class="{'illegalValue': isInvalid}"
+                           placeholder="{{'PLACEHOLDER_APPOINTMENT_TIME_FORMAT' | translate }}"
+                           non-blank
+                           ng-disabled='(!appointment.date || (isEditMode() && isFieldEditNotAllowed()))'
+                           ng-pattern="timeRegex"
+                           ng-model-options="{allowInvalid: true}"
+                           required
+                           readonly />
+                </p>
+
+                <p class="warning-message" ng-if="warning.appointmentDate">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span> {{'APPOINTMENT_CREATION_DATE_WARNING' | translate}} </span>
+                </p>
+                
+                
+                <p class="app-ava-slots"
+                    ng-if="currentLoad !== undefined && maxAppointmentsLimit !== undefined">
+                    <span ng-if="maxAppointmentsLimit !== undefined">
+                        <span style="color: #5cb85c;">
+                            {{ (maxAppointmentsLimit - currentLoad) > 0 ? (maxAppointmentsLimit - currentLoad) : 0 }}
+                            {{'APPOINTMENT_CREATE_SLOT' | translate}} {{'APPOINTMENT_CREATE_AVAL' | translate}}
+                        </span>
+                        {{'APPOINTMENT_CREATE_OUTOF' | translate}}
+                        <span style="color: #0275d8;">{{maxAppointmentsLimit}} {{'APPOINTMENT_CREATE_SLOT' | translate}}</span>
+                        <span ng-if="maxAppointmentsLimit !== undefined && currentLoad !== undefined">, </span>
+                    </span>
+                    <span style="color: #f0ad4e;" ng-if="currentLoad !== undefined">{{currentLoad}} {{'APPOINTMENT_CREATE_SLOT' | translate}} {{'APPOINTMENT_CREATE_BOOKED' | translate}}</span>
+                </p>
+               
+                <p class="warning-message" ng-if="warning.outOfRange">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span> {{'APPOINTMENT_CREATION_OUT_OF_RANGE_WARNING' | translate}} </span>
+                </p>
+                <p class="walk-in-app">
+                    <input type="checkbox" ng-model="appointment.appointmentKind" ng-true-value="'WalkIn'"
+                        ng-false-value="'Scheduled'" ng-disabled="isEditMode() && isFieldEditNotAllowed()">
+                    <span class="walk-in-text">{{'APPOINTMENT_CREATE_WALK_IN' | translate}}</span>
+            </section>
+
+
+
+            </p>
+            <a class="create-appointment-action-btn" ng-click="reloadState()">
+                {{::'APPOINTMENT_CREATE_CANCEL' | translate }}
+            </a>
+
+            <button ng-if="!warning.appointmentDate && !warning.holiday" type="submit" class="service-save-btn create-appointment-action-btn"
+                ng-disabled="currentLoad >= maxAppointmentsLimit || warning.appointmentDate || warning.startTime || warning.endTime">
+                {{::'APPOINTMENT_CREATE_SAVE' | translate }}
+            </button>
+        </form>
+    </div>
+</div>

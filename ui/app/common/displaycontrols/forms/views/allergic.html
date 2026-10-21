@@ -1,0 +1,30 @@
+<div ng-if="hasAllergies">
+    <div style="background:#669999; color:white; padding:10px;">
+        <h1 style="margin:0; color:white;">Allergy Information</h1>
+    </div>
+
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+        </thead>
+        <tbody>
+            <tr ng-if="medications.length > 0 && medications != 'none' && medications !='no' ">
+                <td style="border:1px solid #669999; padding:8px; background:#f5f5f5;">Medication</td>
+                <td style="border:1px solid #669999; padding:8px; color:#ff6b6b;">
+                   <strong style="font-weight: bolder; font-size:larger">{{ medications.join(', ') }}</strong>
+                </td>
+            </tr>
+            <tr ng-if="foods.length > 0 && foods != 'none' && foods !='no'">
+                <td style="border:1px solid #669999; padding:8px; background:#f5f5f5;">Food</td>
+                <td style="border:1px solid #669999; padding:8px; color:#ff6b6b;">
+                   <strong style="font-weight: bolder; font-size:larger">{{ foods.join(', ') }}</strong> 
+                </td>
+            </tr>
+            <tr ng-if="others.length > 0 && others != 'none' && others != 'no'">
+                <td style="border:1px solid #669999; padding:8px; background:#f5f5f5;">if other specify</td>
+                <td style="border:1px solid #669999; padding:8px; color:#ff6b6b;">
+                    <strong style="font-weight: bolder; font-size:larger">{{ others.join(', ') }}</strong> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

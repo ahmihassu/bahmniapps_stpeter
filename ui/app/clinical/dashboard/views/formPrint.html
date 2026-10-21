@@ -1,0 +1,32 @@
+<div class="print-header">
+    <h1>
+        <span style="font-family:nyala">
+            {{MedicalCerteficate ? '' : 'Kidus Petros Specialized Hospital'}}
+        </span>
+    </h1>
+    <h2>{{title}}</h2>
+</div>
+<patient-context patient="patient" show-name-and-image="tabBeingPrinted.printing.showNameAndImage"></patient-context>
+<div class="template-container" style="margin-top: 0px; padding-top: 0px;">
+    <section class="block">
+        <u>{{formDate | bahmniDateTime}}</u>
+    </section>
+    <section class="block dashboard-section">
+        <bahmni-observation patient="patient" config="formConfig" is-on-dashboard="false" section-title="form.section.title"></bahmni-observation>
+    </section>
+    <h1>
+        <span style="font-family:nyala">
+            <hr ng-if="MedicalCerteficate" style="border: 2px solid black; margin-top: 20px; margin-bottom: 20px;">
+            {{MedicalCerteficate || SickLeave ? 'Tel: +251 154 1746&emsp;&emsp;Tel: +251 930 481 542&emsp;&emsp;Tel: +251 930 079 130' : ''}}
+        </span>
+    </h1>
+    <!-- <section class="block dashboard-section">
+        <treatment-data id="treatment-summary" params="treatmentConfig" patientUuid="patient.uuid"></treatment-data>
+    </section>
+    <section class="block dashboard-section">
+        <bahmni-diagnosis patient-uuid="patient.uuid" config="diagnosisConfig" show-latest-diagnosis="false"></bahmni-diagnosis>
+    </section> -->
+    <!-- <section class="block dashboard-section">
+        <investigation-results params="investigationConfig"></investigation-results>
+    </section> -->
+</div>

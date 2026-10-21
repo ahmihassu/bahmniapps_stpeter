@@ -1,0 +1,147 @@
+// ── O2 Session Status Widget ──────────────────────────────────────────────────
+
+.o2-session-widget {
+    margin: 0 0 30px 0;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 13px;
+    border: 1px solid #d0d0d0;
+}
+
+// Status bar — top strip showing session state
+.o2-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    flex-wrap: wrap;
+
+    &.o2-status-active {
+        background: #e8f5e9;
+        border-bottom: 2px solid #43a047;
+
+        .o2-status-indicator {
+            background: #43a047;
+        }
+    }
+
+    &.o2-status-discontinued {
+        background: #fce4ec;
+        border-bottom: 2px solid #e53935;
+
+        .o2-status-indicator {
+            background: #e53935;
+        }
+    }
+}
+
+.o2-status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.o2-status-label {
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+.o2-status-meta {
+    color: #555;
+    font-size: 12px;
+    flex: 1;
+}
+
+.o2-total-liters {
+    margin-left: auto;
+    font-size: 13px;
+    color: #333;
+    white-space: nowrap;
+
+    strong {
+        font-size: 15px;
+        color: #1565c0;
+    }
+}
+
+// Segment table
+.o2-segment-table {
+    width: 20%;
+    border-collapse: collapse;
+    background: #fff;
+
+    th {
+        background: #f5f5f5;
+        color: #555;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        padding: 6px 10px;
+        border-bottom: 1px solid #e0e0e0;
+        text-align: left;
+    }
+
+    td {
+        padding: 6px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+        font-size: 13px;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    // Active (open) segment row — subtle highlight
+    tr.o2-seg-open td {
+        background: #f1f8e9;
+        font-weight: 500;
+    }
+
+    tr.o2-seg-closed td {
+        color: #666;
+    }
+}
+
+.o2-open-badge {
+    display: inline-block;
+    background: #43a047;
+    color: #fff;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+// ── Unpaid billing alert banner ───────────────────────────────────────────────
+// Shown at the top of the concept set form when the previous 24h invoice
+// is unpaid. Notice-only — the form is never locked.
+
+.o2-unpaid-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    background: #fff3f3;
+    border: 2px solid #c62828;
+    border-radius: 4px;
+
+    .o2-unpaid-icon {
+        font-size: 20px;
+        color: #c62828;
+        flex-shrink: 0;
+    }
+
+    .o2-unpaid-text {
+        font-size: 14px;
+        font-weight: 700;
+        color: #c62828;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+    }
+}

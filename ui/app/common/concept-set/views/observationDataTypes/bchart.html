@@ -1,0 +1,58 @@
+<div class="mask-container" style="position: relative;">
+    <img ng-src="../images/burn_BSA.gif" alt="chart">
+    <div style="position: absolute; inset: 0; margin-left: 50%;">Click on image to indicate burned areas</div>
+    <img ng-src="../images/masks/head_front.png" ng-style="head_front.css" ng-click = "toggle(head_front)">
+    <img ng-src="../images/masks/neck_front.png" ng-style="neck_front.css" ng-click = "toggle(neck_front)">
+    <img ng-src="../images/masks/torso_front.png" ng-style="torso_front.css" ng-click = "toggle(torso_front)">
+    <!-- Right hand -->
+    <img ng-src="../images/masks/arm_front.png" ng-style="arm_front_right.css" ng-click = "toggle(arm_front_right)">
+    <img ng-src="../images/masks/fore_arm.png" ng-style="fore_arm_right.css" ng-click = "toggle(fore_arm_right)">
+    <img ng-src="../images/masks/hand.png" ng-style="hand_right.css" ng-click = "toggle(hand_right)">    
+    <!-- Left hand -->
+    <img ng-src="../images/masks/arm_front.png" ng-style="arm_front_left.css" ng-click = "toggle(arm_front_left)">
+    <img ng-src="../images/masks/fore_arm.png" ng-style="fore_arm_left.css" ng-click = "toggle(fore_arm_left)">
+    <img ng-src="../images/masks/hand.png" ng-style="hand_left.css" ng-click = "toggle(hand_left)">
+    <!-- Right Leg -->
+    <img ng-src="../images/masks/thigh_front.png" ng-style="thigh_front_right.css" ng-click = "toggle(thigh_front_right)">
+    <img ng-src="../images/masks/leg_front.png" ng-style="leg_front_right.css" ng-click = "toggle(leg_front_right)">
+    <img ng-src="../images/masks/foot_front.png" ng-style="foot_front_right.css" ng-click = "toggle(foot_front_right)">
+
+    <!-- Left Leg -->
+    <img ng-src="../images/masks/thigh_front.png" ng-style="thigh_front_left.css" ng-click = "toggle(thigh_front_left)">
+    <img ng-src="../images/masks/leg_front.png" ng-style="leg_front_left.css" ng-click = "toggle(leg_front_left)">
+    <img ng-src="../images/masks/foot_front.png" ng-style="foot_front_left.css" ng-click = "toggle(foot_front_left)">
+
+    <img ng-src="../images/masks/groin.png" ng-style="groin.css" ng-click = "toggle(groin)">
+
+    
+    <img ng-src="../images/masks/head_back.png" ng-style="head_back.css" ng-click = "toggle(head_back)">
+    <img ng-src="../images/masks/neck_back.png" ng-style="neck_back.css" ng-click = "toggle(neck_back)">
+    <img ng-src="../images/masks/torso_back.png" ng-style="torso_back.css" ng-click = "toggle(torso_back)">
+
+
+    <!-- Right hand -->
+    <img ng-src="../images/masks/arm_front.png" ng-style="arm_back_right.css" ng-click = "toggle(arm_back_right)">
+    <img ng-src="../images/masks/fore_arm.png" ng-style="fore_arm_right_back.css" ng-click = "toggle(fore_arm_right_back)">
+    <img ng-src="../images/masks/hand.png" ng-style="hand_right_back.css" ng-click = "toggle(hand_right_back)">
+    
+    <!-- Left hand -->
+    <img ng-src="../images/masks/arm_front.png" ng-style="arm_back_left.css" ng-click = "toggle(arm_back_left)">
+    <img ng-src="../images/masks/fore_arm.png" ng-style="fore_arm_left_back.css" ng-click = "toggle(fore_arm_left_back)">
+    <img ng-src="../images/masks/hand.png" ng-style="hand_left_back.css" ng-click = "toggle(hand_left_back)">
+
+    <!-- butt -->
+    <img ng-src="../images/masks/butt_left.png" ng-style="butt_left.css" ng-click = "toggle(butt_left)">
+    <img ng-src="../images/masks/butt_right.png" ng-style="butt_right.css" ng-click = "toggle(butt_right)">
+
+    <!-- Right Leg -->
+    <img ng-src="../images/masks/thigh_back.png" ng-style="thigh_back_right.css" ng-click = "toggle(thigh_back_right)">
+    <img ng-src="../images/masks/leg_back.png" ng-style="leg_back_right.css" ng-click = "toggle(leg_back_right)">
+    <img ng-src="../images/masks/foot_back.png" ng-style="foot_back_right.css" ng-click = "toggle(foot_back_right)">
+
+    <!-- Left Leg -->
+    <img ng-src="../images/masks/thigh_back.png" ng-style="thigh_back_left.css" ng-click = "toggle(thigh_back_left)">
+    <img ng-src="../images/masks/leg_back.png" ng-style="leg_back_left.css" ng-click = "toggle(leg_back_left)">
+    <img ng-src="../images/masks/foot_back.png" ng-style="foot_back_left.css" ng-click = "toggle(foot_back_left)">
+    <div>Calculated coverage: {{observation.calculated}}%</div>
+    
+</div>

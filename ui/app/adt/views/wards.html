@@ -1,0 +1,10 @@
+<h2  ng-if="message" class="section-title">
+    <span class="section-title-text">
+        {{message}}
+    </span>
+</h2>
+<div class="ward-list">
+    <div ng-repeat="ward in wards">
+        <ward ward="ward" read-only="true"></ward>
+    </div>
+</div>

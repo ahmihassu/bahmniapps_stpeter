@@ -1,0 +1,55 @@
+<!-- O2 Session Status Widget
+     Rendered by O2SessionController (embedded as a hidden div in conceptSet.html).
+     Only visible when an O2 session exists for this patient's active visit.
+     Read-only — the nurse fills the actual form through the Bahmni concept set form.
+-->
+<div ng-if="o2Session" class="o2-session-widget">
+
+    <!-- Status bar -->
+    <div class="o2-status-bar" ng-class="{'o2-status-active': o2Session.status === 'ACTIVE', 'o2-status-discontinued': o2Session.status === 'DISCONTINUED'}">
+        <span class="o2-status-indicator"></span>
+        <span class="o2-status-label">
+            O<sub>2</sub> Session
+            <strong ng-if="o2Session.status === 'ACTIVE'">Active</strong>
+            <strong ng-if="o2Session.status === 'DISCONTINUED'">Discontinued</strong>
+        </span>
+        <span class="o2-status-meta">
+            Started: {{ o2Session.startTime | date:'dd MMM HH:mm' }}
+            <span ng-if="o2Session.status === 'DISCONTINUED'">
+                &nbsp;&mdash;&nbsp; Ended: {{ o2Session.endTime | date:'dd MMM HH:mm' }}
+            </span>
+        </span>
+        <span class="o2-total-liters">
+            Total: <strong>{{ o2TotalLiters | number:2 }} L</strong>
+        </span>
+    </div>
+
+    <!-- Segment table -->
+    <table class="o2-segment-table" ng-if="o2SegmentDurations.length > 0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Flow Rate</th>
+                <th>Start</th>
+                <!-- <th>End</th> -->
+                <th>Duration</th>
+                <th>Liters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="seg in o2SegmentDurations"
+                ng-class="{'o2-seg-open': seg.isOpen, 'o2-seg-closed': !seg.isOpen}">
+                <td>{{ $index + 1 }}</td>
+                <td>{{ seg.flowRate }} L/min</td>
+                <td>{{ seg.startTime | date:'HH:mm' }}</td>
+                <td>
+                    <span ng-if="!seg.isOpen">{{ seg.endTime | date:'HH:mm' }}</span>
+                    <span ng-if="seg.isOpen" class="o2-open-badge">ongoing</span>
+                </td>
+                <td>{{ seg.display }}</td>
+                <td>{{ (seg.flowRate * seg.totalMinutes) | number:1 }} L</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

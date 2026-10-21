@@ -1,0 +1,143 @@
+<div class="reg-header-wrapper header-wrapper">
+    <header class="reg-header" ng-controller="NavigationController">
+    <ul class="top-nav fl">
+        <a class="back-btn" accesskey="h" href="../home/index.html" ng-click="onHomeNavigate($event)"><i class="fa fa-home"></i></a>
+    </ul>
+    <div class="reg-header-right fr">
+        <div ui-view="headerExtension" class="print-action-items fl"></div>
+        <span class="btn-user-info change-location  fl">{{ currentUser.person.personName.givenName +" " + currentUser.person.personName.familyName}}</span>
+        <button class="btn-user-info fr">
+            <i class="fa fa-user-md fa-white small"></i>
+            <i class="fa fa-caret-down fa-white mini"></i>
+        </button>
+        <ul>
+            <li>
+                <a><i class="fa fa-user fa-white small"></i><span>{{:: currentUser.username}}</span></a>
+            </li>
+            <li>
+                <i class="fa fa-map-marker fa-white small"></i><span>{{:: currentUser.currentLocation | translate}}</span>
+            </li>
+            <li>
+                <a log-out><i class="fa fa-power-off fa-white small"></i><span class="nav-link">{{::'REGISTRATION_LABEL_LOGOUT' | translate}}</span></a>
+            </li>
+        </ul>
+    </div>
+</header>
+</div>
+
+<div class="container">
+<section class="reg-search-wrapper">
+    <section class="reg-search">
+        <article class="search-seperator-r">
+            <form name="searchByNameForm" ng-submit="searchPatients()" class="simple-form-ui" >
+                <article class="fl">
+                    <label for="registrationNumber"><strong>Registration Number</strong></label>
+                    <input tabindex="2" class="fl" type="text" id="registrationNumber"
+                        ng-model="searchParameters.registrationNumber" focus-me="true" placeholder="የካርድ ቁጥር አስገባ">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.firstName"
+                        placeholder="ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_FATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.fatherName"
+                        placeholder="የአባት ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_GFATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.grandFatherName"
+                        placeholder="የአያት ስም">
+                </article>
+                <article class="fl alt-input">
+                    <label for="startDate"><strong>Start Date</strong></label>
+                    <ethiopian-date-selector tabindex="4" id="startDate" date="searchParameters.startDate"></ethiopian-date-selector>
+                </article>
+                <article class="fl alt-input">
+                    <label for="endDate"><strong>End Date</strong></label>
+                    <ethiopian-date-selector tabindex="4" id="endDate" date="searchParameters.endDate"></ethiopian-date-selector>
+                </article>
+                <article class="fl alt-input">
+                    <label for="gender"><strong>Gender</strong></label>
+                    <select tabindex="4" id="gender" ng-model="searchParameters.gender">
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </article>
+                <article class="fl">
+                    <label for="age"><strong>Age</strong></label>
+                    <input tabindex="4" type="number" id="age" ng-model="searchParameters.age">
+                </article>
+                <article class="fl alt-input">
+                    <label for="visitType"><strong>Visit Type</strong></label>
+                    <select id ="visitType" tabindex="4" ng-model="searchParameters.selectedVisitType">
+                        <option ng-repeat="location in visitType | orderBy:'name'" id ="{{location.display}}" ng-value="{{location}}">{{location.display}}</option>
+                    </select>
+                </article>
+                <article class="fl">
+                    <label for="diagnosis"><strong>Diagnosis</strong></label>
+                    <input tabindex="4" type="text" id="diagnosis" ng-model="searchParameters.diagnosis" list="diagnosisListt" ng-change="refreshList()">
+                    <datalist id="diagnosisListt">
+                        <option ng-repeat="diagnosis in diagnosisList" value="{{diagnosis.conceptName}}">
+                    </datalist>
+                </article>
+                <article class="fl">
+                    <div class="reg-srch-btn">
+                        <button tabindex="5" type="submit" ng-disabled="disableSearchButton()">{{ ::'REGISTRATION_LABEL_SEARCH' | translate}}</button>
+                    </div>
+                </article>
+            </form>
+
+        </article>
+    </section>
+
+    <div class="note-container no-search-results" ng-if="noResultsMessage">
+        <div class="note warning">
+            <div class="text">
+                <p>{{noResultsMessage | translate:patientIdentifier }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="resultsPresent()" infinite-scroll="nextPage()" infinite-scroll-listen-for-event="list:filtered" class="registraition-search-results-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th><strong>MRN</strong></th>
+                <th><strong>Name</strong></th>
+                <th><strong>Visit Type</strong></th>
+                <th><strong>Diagnosis</strong></th>
+                <th><strong>Gender</strong></th>
+                <th><strong>Age</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="result in results">
+                <td>
+                    <a tabindex="{{ :: 8 + $index + 1 }}" ng-if="::(searchActions.length > 0)" ng-href="../clinical/#/default/patient/{{result.uuid}}/dashboard?from=serviceAudit" target=”_blank”>
+                        {{::result.identifier || 'Not Assigned'}}
+                    </a>
+                </td>
+                <td>{{::result.given_name}} {{::result.middle_name}} {{::result.family_name}}</td>
+                <td>{{::result.visitType}}</td>
+                <td>{{::result.diagnosis}}</td>
+                <td>{{::result.gender}}</td>
+                <td>{{::result.age}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="loader" ng-show="loadingMoreResults()"></div>
+
+    <div class="note-container no-more-results" ng-if="noMoreResultsPresent">
+        <div class="note warning">
+            <div class="text">
+                <p>{{ ::'REGISTRATION_LABEL_NO_RESULTS' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

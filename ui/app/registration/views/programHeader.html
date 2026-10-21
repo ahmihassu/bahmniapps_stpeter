@@ -1,0 +1,29 @@
+<header class="reg-header" ng-controller="NavigationController">
+    <ul class="top-nav fl">
+        <a class="back-btn" accesskey="h" href="../home/index.html" ng-click="onHomeNavigate($event)"><i class="fa fa-home"></i></a>
+        <li>
+            <a href="../clinical/#/programs/patient/searchProgram"><i class="fa fa-user fa-white small"></i>Programs</a>
+          
+            
+        </li>
+    </ul>
+    <div class="reg-header-right fr">
+        <div ui-view="headerExtension" class="print-action-items fl"></div>
+
+        <button class="btn-user-info fr">
+            <i class="fa fa-user-md fa-white small"></i>
+            <i class="fa fa-caret-down fa-white mini"></i>
+        </button>
+        <ul>
+            <li>
+                <a><i class="fa fa-user fa-white small"></i><span>{{:: currentUser.username}}</span></a>
+            </li>
+            <li>
+                <i class="fa fa-map-marker fa-white small"></i><span>{{:: currentUser.currentLocation | translate}}</span>
+            </li>
+            <li>
+                <a log-out onclick="getID()"><i class="fa fa-power-off fa-white small"></i><span class="nav-link">{{::'REGISTRATION_LABEL_LOGOUT' | translate}} ({{::currentUser.role}})</span></a>
+            </li>
+        </ul>
+    </div>
+</header>

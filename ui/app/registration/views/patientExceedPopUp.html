@@ -1,0 +1,23 @@
+<div class="revise-refill-modal-wrapper discharge-wrapper" aria-labelledby="dialog-label">
+    <style type="text/css">
+        .opd-header-wrapper {
+            z-index: 10000 !important;
+        }
+    </style>
+    <div class="ngdialog-close clearfix"></div>
+    <div class="clearfix">
+        <h4>Patients to this visit has exceeded the allowed amount!</h4>
+        <div><p>Active number of patients in this visit type is: {{noOfPatients}}</p></div>
+        <h5> Are you sure you want to continue? </h5>
+       
+    </div>
+
+    </div>
+   
+    <div class="dialog-button-group ipd-button-group">
+        <button id="modal-revise-button1" class="secondary-button" ng-click="saveConfirmation()">Continue</button>
+        <button id="modal-revise-button3" class="secondary-button" ng-click="cancel()">Cancel</button>
+    </div>
+
+    <span class="ngdialog-end"></span>
+</div>

@@ -1,0 +1,21 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../styles/clinicalPrint.css" media="print"/>
+</head>
+<body>
+    <div class="print-wrapper print-patient-summary">
+        <div class="print-header">
+            <h1>
+                <img class="logo" 
+                     style="height: 150px; width: 150px;" 
+                     ng-src="{{MedicalCerteficate ? '../images/stpeterlogo.png' : '../images/stpeterlogo.png'}}" 
+                     alt="logo">
+            </h1>
+            {{MedicalCerteficate || SickLeave ? 'የቅዱስ ጴጥሮስ ስፔሻላይዝድ ሆስፒታል' : tabBeingPrinted.printing.title}}
+       <h2>{{MedicalCerteficate || SickLeave ? 'St peter specialized hospital' : tabBeingPrinted.printing.header}}</h2>
+        </div>
+        <div ng-include="currentDashboardTemplateUrl"></div>
+    </div>
+</body>
+</html>
+

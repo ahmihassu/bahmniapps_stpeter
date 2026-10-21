@@ -1,0 +1,39 @@
+<div>
+      <select id="drug-selector" class="form-field freq-dose-units" ng-model = "selectedMedication"
+                                ng-options="medication.display as medication.display for medication in allMedications"
+                                ng-change="onSelect()">
+                            <option value="">Choose medication</option>
+     </select>
+</div>
+
+<div ng-if="selectedMedication" style="overflow:auto;  position: relative; width: 100%; height: auto;">
+    <table ng-init="sortMedicationsAlphabetically()" class="fixed-table" ng-repeat="medication in medications track by $index" style="margin-top: 40px;">
+        <caption>
+            <h3><b>{{medication.display}}</b></h3> 
+                <span>
+                    <h4 ng-if="medication.status == 'discontinue' || medication.status == 'hold'" style="font-size: large; color: red;">{{medication.status}}</h4>
+                    <button ng-if ="!fixed && medication.status != 'discontinue' && medication.status != 'hold'" ng-click="changeStatus(medication,'hold')">hold</button>
+                    <button ng-if ="!fixed && medication.status != 'discontinue' && medication.status == 'hold'" ng-click="changeStatus(medication,'con')">continue</button>
+                    <button ng-if ="!fixed && medication.status != 'discontinue'" ng-click="changeStatus(medication,'discontinue')">discontinue</button>
+                </span>
+        </caption>
+       <thead>
+        <tr>
+            <td>Time</td>
+            <td ng-if="!fixed">Today</td>
+            <td ng-if="fixed"></td>
+            <td ng-repeat = "date in datesOfObs">{{date}}</td>
+        </tr>
+    </thead>
+        <tr ng-repeat="time in medication.time">
+            <td>{{time.toBeGiven}}</td>
+            <td><input ng-if="!fixed" type="text" id="time.uuid" ng-model="time.givenBy" ng-change = "valueChanged()" ng-disabled="medication.status == 'discontinue' || medication.status == 'hold'" placeholder="Given by"></td>
+            <td ng-repeat="date in datesOfObs">
+                <span ng-repeat = "prevValue in prevValues">
+                    <b ng-if = "date == prevValue.obsDate && time.uuid == prevValue.uuid">{{prevValue.givenBy}}</b>
+                </span>
+            </td>
+        </tr>
+        </tr>
+    </table>
+    </div>

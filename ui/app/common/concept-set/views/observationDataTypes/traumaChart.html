@@ -1,0 +1,8 @@
+<div class="mask-container" style="position: relative; display: inline-block; width : 680px; height: 470px">
+    <img id="tchart" ng-src="../images/trauma_chart_1.png"  alt="chart" ng-click="toggleOn($event)">
+        <div ng-repeat = "item in items track by $index">
+            <div ng-if="item.display" style="position: absolute; cursor: default; user-select: none;" ng-click="toggleOff(item)" ng-style={{item.css}}>
+                {{symbol}}
+            </div>
+        </div>
+</div>

@@ -1,0 +1,42 @@
+<div id="referralPatient" class="referral-patient" style="font-size: 18px; padding: 20px; margin: 20px; border: 1px solid #ccc; border-radius: 8px;">
+    <h6 style="font-size: 22px; font-weight: bold; margin-bottom: 20px;">Referral Patient Detail</h6>
+
+    <div class="patient-info" style="margin-bottom: 20px;">
+        <p><strong>Patient Name:</strong> {{ patient.name }}</p>
+        <p><strong>Patient Identifier:</strong> {{ patient.identifier }}</p>
+        <p><strong>Age:</strong> {{ patient.age }}</p>
+        <p><strong>Gender:</strong> {{ referral.gender }}</p>
+    </div>
+
+    <div class="referral-info" style="margin-bottom: 20px;">
+        <p><strong>Date of Referral:</strong> {{ referral.dateOfReferral }}</p>
+        <p><strong>From Location:</strong> {{ referral.fromLocation }}</p>
+        <p><strong>Main Diagnosis:</strong> {{ referral.mainDiagnosis }}</p>
+        <p><strong>Physician Name:</strong> {{ referral.physician }}</p>
+        <p><strong>Consulted Senior:</strong> {{ referral.consultedSenior }}</p>
+        <p><strong>Referral Reason:</strong> {{ referral.referralReason }}</p>
+    </div>
+
+     <div id="referralConceptSet" style="margin-bottom: 20px;">
+         <concept-set concept-set-name="referralComplete" observations="referralObservations"></concept-set>
+         <concept-set concept-set-name="referredTo" observations="referralObservations"></concept-set>
+         <button class="adt-admit" ng-click="updateReferral()">Save</button>
+    </div>
+    <!-- <div class="referred-to" style="margin-bottom: 20px;">
+        <label for="referredTo"><strong>Referred to:</strong></label>
+        <input type="text" id="referredTo" ng-model="referral.referredTo" style="margin-left: 10px; font-size: 16px; width: 300px;" placeholder="Enter facility name" />
+    </div>
+
+
+    <div class="referral-complete" style="margin-bottom: 20px;">
+        <label>
+            <strong>Referral complete:</strong>
+            <input type="checkbox" ng-model="referral.referralComplete" style="margin-left: 10px;" />
+        </label>
+    </div>
+    <div class="save-button" style="text-align: right;">
+        <button ng-click="saveReferralData()">
+            Save
+        </button>
+`   </div> -->
+</div>

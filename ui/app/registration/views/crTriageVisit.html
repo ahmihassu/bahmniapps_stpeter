@@ -1,0 +1,87 @@
+<div class="reg-body-wrapper visit-patient-page">
+    <div class="non-printable" xmlns="http://www.w3.org/1999/html">
+        <div>
+            <form name="myForm" ng-init="disableFormSubmitOnEnter()" class="visit-patient">
+                <div class="box-container">
+
+                    <legend class="registraion_legend first-registraion_legend">
+                        <span class="mylegend"><strong>{{ ::'REGISTRATION_LABEL_SUMMARY' | translate}}</strong></span>
+                    </legend>
+                    <section>
+                        <div class="form-field fl">
+                            <div class="field-attribute">
+                                <label for="patientId">{{ ::patient.primaryIdentifier.identifierType.name }} : </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::patient.primaryIdentifier.identifier}}</strong></label>
+                            </div>
+                        </div>
+                        <div class="form-field photocontainer-spacing clearfix">
+                            <div class="field-attribute">
+                                <label class="control-label" for="patientName">{{ ::'REGISTRATION_LABEL_PATIENT_NAME' | translate}} : </label>
+                            </div>
+                            <div class="field-value">
+                                <label class="control-label"><strong>{{::patient.name}}</strong></label>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- TODO: need to find a better way to render the directive again on context change or after all the calls are made.-->
+                    <section class="observation-section" ng-if="context">
+                        <div ng-repeat="conceptSet in ::availableConceptSets" class="concept-set-group">
+                            <div class="registraion_legend">
+                                <span class="mylegend" ng-if="::conceptSet.options.translationKey">{{::conceptSet.options.translationKey | translate}}</span>
+                                <span class="mylegend" ng-if="::!conceptSet.options.translationKey">{{::conceptSet.label}}</span>
+                            </div>
+                            <div class="clearfix">
+                                <article ng-if="!isFormTemplate(conceptSet)" class="fl obs-section-form">
+                                    <concept-set concept-set-name="::conceptSet.options.conceptName" required="::conceptSet.options.required" patient="patient" observations="observations"
+                                                 obs-scope="::conceptSet.options.scope" show-title="false" concept-set-focused="::$index === 0"></concept-set>
+                                </article>
+                                <article ng-if="isFormTemplate(conceptSet)" class="fl obs-section-form" id={{::conceptSet.formUuid}}>
+                                    <form-controls form="conceptSet" patient="patient" validate-form="true"></form-controls>
+                                </article>
+                                <button class="buttonClass ng-binding" ng-click="optionClick()(option)" accesskey="r" ng-disabled="optionDisabled" ng-bind-html="::optionText()(option) | translate"><span>P<u>r</u>int CR Triage Form</span></button>
+                                <article ng-if="::conceptSet.options.showLatest && !fromPediatric" class="obs-section fr" id="observationSection">
+                                    <bahmni-observation patient="patient" config="{conceptNames: conceptSet.options.conceptNames, scope: 'latest'}" section-title="'CR_VISIT_KEY'"></bahmni-observation>
+                                    <br/>
+                                    <div ng-if="::conditionsDisplay">
+                                        <conditions-list params="conditionSection" patient="patient"></conditions-list>
+                                    </div>
+                                   
+                                    <!-- <div style="padding-top: 10px;">
+                                         <button class="buttonClass ng-binding" ng-click="optionClick()(option)" accesskey="r" ng-disabled="optionDisabled" ng-bind-html="::optionText()(option) | translate"><span>P<u>r</u>int CR Triage Form</span></button>
+                               
+                                        <a ng-click="GotoPrintPage()">Proceed to Pirnt</a>
+                                     </div> -->
+                                </article>
+                            </div>
+                        </div>
+                        <div class="box-container-default box-container">
+                                    <label class="control-label" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;color:#000000;">
+                                        <strong class="ng-binding">Medico Legal Case</strong>
+                                    </label>
+                                    <div style="display: flex; align-items: center; gap: 10px;margin:1px;color:#363463;">
+                                        <label for="medicoLegal" style="margin-bottom: 0; cursor: pointer;">Medico Legal Case Visit</label>
+                                        <input type="checkbox" id="medicoLegal" name="medicoLegal" ng-model="patient.isMedicoLegal" />
+                                    </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="submit-btn-container"> 
+                         <div class="right" ng-if="enterVisitDetails">
+                             <button ng-click="startVisits()" class="start-visit-button right">{{ 'REGISTRATION_SELECT_VISIT_TYPE'|translate}}</button>        
+                        </div>
+                        <div class="right" ng-if="!enterVisitDetails">
+                            <button ng-click="changeVisits()" class="start-visit-button right">Save Changes</button>        
+                       </div>
+                       <!-- <div class="right" ng-if="enterVisitDetails && fromPediatric">
+                        <button single-click="submit()" class="confirm" accesskey="{{ ::'REGISTRATION_SAVE_ACCESS_KEY' | translate}}" ng-bind-html="::'REGISTRATION_LABEL_SAVE' | translate"></button>       
+                   </div> -->
+                  </div>
+                 </div>
+            </form>
+            <br>
+        </div>
+    </div>
+</div>

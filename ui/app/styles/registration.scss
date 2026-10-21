@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+@import "vendor/normalize";
+
+@import "bahmni-helper/variables";
+@import "bahmni-helper/base";
+@import "bahmni-helper/fonts";
+@import "bahmni-helper/font-awesome";
+
+@import "bahmni-components/uiHelper";
+@import "bahmni-components/grid";
+@import "bahmni-components/loader";
+@import "bahmni-components/header";
+@import "bahmni-components/navigation";
+@import "bahmni-components/forms";
+@import "bahmni-components/buttons";
+@import "bahmni-components/typography";
+@import "bahmni-components/loader";
+@import "bahmni-components/splitButton";
+@import "bahmni-components/table";
+@import "bahmni-components/typography";
+
+@import "bahmni-layout/layout";
+
+
+@import "common/bahmniGlobal";
+@import "common/notifications";
+@import "common/directives";
+@import "common/angularFix";
+@import "common/noTouch";
+
+
+
+
+//@import "clinical/observations";
+
+@import "registration/registration";
+
+
+//@import "common/noTouch";
+
+
+
+
+// Queue widget: fixed bottom-right, popout card on hover (registration)
+.queue-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.queue-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px 24px;
+  margin-bottom: 4px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.queue-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0 0 12px 0;
+}
+
+.queue-card-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: #1a73e8;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.queue-card-call-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #28a745;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.queue-card-call-btn:hover:not(:disabled) {
+  background: #218838;
+}
+
+.queue-card-call-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.queue-trigger-btn {
+  padding: 8px 16px;
+  height: 40px;
+  font-size: 14px;
+  color: #fff;
+  background: #699;
+  border: 1px solid #699;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.queue-trigger-btn:hover {
+  background: #588;
+  border-color: #588;
+}
+
+

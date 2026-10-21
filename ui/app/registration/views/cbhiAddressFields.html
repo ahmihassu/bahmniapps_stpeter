@@ -1,0 +1,11 @@
+<div>
+    <select ng-model="selectedField1" ng-options="item.field1 for item in options1" ng-change="onField1Change()">
+        <option value="">CBHI Region</option>
+    </select>
+    <select ng-model="selectedField2" ng-options="item.field2 for item in filteredOptions2" ng-change="onField2Change()" ng-disabled="!selectedField1">
+        <option value="">CBHI Zone</option>
+    </select>
+    <select ng-model="selectedField3" ng-options="item.field3 for item in filteredOptions3" ng-change="onField3Change()" ng-disabled="!selectedField2">
+        <option value="">CBHI Woreda</option>
+    </select>
+</div>

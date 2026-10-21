@@ -1,0 +1,47 @@
+<div class="ADT-container">
+    <form>
+        <div style="padding-bottom: 10px;" class="dispositionNotesWrap" ng-if="patient && expectedDateOfDischargeConceptName && (disableAdmitButton() || disableTransfer())">
+            <label style="font-size: 14px;" class="disposition-notes" for="dispositionNotes"><b>Disposition Note:</b> </label>
+            <textarea id="dispositionNotes" ng-model="dispositionNoteValue" ng-disabled="isRetrospectiveMode()"  msd-elastic readonly></textarea>
+        </div>
+        <div id="observations" ng-if="patient && expectedDateOfDischargeConceptName && !(disableAdmitButton() || disableTransfer())">
+            <edit-adt-observations patient="patient" concept-set-name="expectedDateOfDischargeConceptName" edit-mode="$parent.editMode" visit-type-uuid="currentVisitTypeUuid"></edit-adt-observations>
+        </div>
+        <div class="clearfix action-button" ng-if="showAdtButtons()" show-if-privilege="{{assignBedsPrivilege}}">
+            <button ng-if="checkPrivilege('adt:admit')" class="adt-admit" ng-click="admit()" ng-disabled="disableAdmitButton() || !hasDeposit ">{{'ADMIT_KEY' | translate}}</button>
+            <button ng-if="checkPrivilege('adt:transfer')" class="adt-transfer" ng-click="transfer()" ng-disabled="disableTransfer()">{{'MOVEMENT_KEY' | translate}}</button>
+            <button ng-if="checkPrivilege('adt:discharge')" class="adt-discharge" ng-click="discharge()" ng-disabled="disableDischargeButton()">{{'DISCHARGE_KEY' | translate}}</button>
+        </div>
+        <div class="ward-selection" ng-if="checkPrivilege('adt:admit')">
+            <label for="wardSelect"><b>Select Ward:</b></label>
+            <select style="margin-bottom: 25px;" id="wardSelect" 
+                    ng-model="adt.selectedWard" 
+                    ng-options="ward for ward in ['ICU', 'General', 'Surgical']"
+                    class="form-control">
+                <option value="">-- Select Ward --</option>
+            </select>
+        <div style="margin:15px">
+            <button
+            style="
+            background: linear-gradient(135deg, #4caf50, #81c784); 
+            color: #fff; 
+            border: none; 
+            border-radius: 25px; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+            transition: all 0.3s ease; 
+            cursor: pointer;" 
+            onmouseover="this.style.background='linear-gradient(135deg, #81c784, #4caf50)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 8px rgba(0, 0, 0, 0.2)';" 
+            onmouseout="this.style.background='linear-gradient(135deg, #4caf50, #81c784)'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 6px rgba(0, 0, 0, 0.1)';"
+            ng-disabled="!adt.selectedWard"
+            ng-click="saveBedOrder()">
+            Send to Cashier
+            </button>
+        </div>
+        </div>
+    </form>
+</div>

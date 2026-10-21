@@ -1,0 +1,115 @@
+<li ng-class="::{'is-text': observation.type == 'Text', 'has-child' : observation.groupMembers.length > 0 ,'video-concept':observation.isVideoConcept(), 'image-preview': observation.isImageConcept()}" >
+    <span ng-if="::observation.isAtypicalConcept()" class="atypicalConcept"></span>
+    <div ng-class="::{'is-abnormal': (observation.abnormal ==  true || observation.interpretation === 'ABNORMAL')}" class="tree-list-item clearfix" bm-gallery patient="patient">
+        <span ng-hide="observation.isImageConcept()" ng-if="::(!observation.isImageConcept() || (observation.isImageConcept() && !print))" class="testUnderPanel left">
+            <label>{{::(observation.concept.shortName || observation.concept.name)}}</label>
+            <hint concept-details="::{
+            lowNormal:observation.lowNormal||observation.concept.lowNormal,
+            hiNormal:observation.hiNormal||observation.concept.hiNormal,
+            }"/>
+            <a href="{{'/document_images/' + observation.value}}" download ng-if="observation.isVideoConcept()" class="button btn fr btn-download"><i class="fa fa-download" aria-hidden="true"></i></a>
+        </span>
+        <span ng-class="::{
+                       'text-only': (observation.concept.dataType ==='Text' && print),
+                       'value-text-only': !(observation.concept.dataType ==='Text' && print)
+                       }"
+              ng-if="::(observation.isFormElement() && !observation.isImageConcept() && !observation.isVideoConcept() && !observation.isAtypicalConcept())">
+            <span ng-if="observation.concept.dataType !== 'Text' && observation.concept.dataType !== 'Time'">{{::observation.getDisplayValue() | titleTranslate}} </span>
+            <span ng-if="observation.concept.dataType !== 'Text' && observation.concept.dataType === 'Time'">{{::convertTime(observation)}} </span>
+            <span ng-if="observation.concept.dataType === 'Text' && observation.concept.name !== 'Consultation Note'"  ng-bind-html="formatTextValue(observation.getDisplayValue())"></span>
+            <span ng-if="observation.concept.dataType === 'Text' && observation.concept.name === 'Consultation Note'"  ng-bind-html="formatConsultValue(observation.getDisplayValue())"></span>
+            <span class="label-add-on">{{::observation.concept.units}}</span>
+                <span ng-if="observation.concept.name === 'Diagnosis Notes, Medication' || observation.concept.name === 'Time medication given'" class="fr provider">
+                    <provider-directive
+                        creator-name="{{::observation.creatorName}}"
+                        provider-name="{{::observation.providers[0].name}}"
+                        provider-uuid="{{::observation.providers[0].uuid}}">
+                    </provider-directive>
+                <span ng-if="::observation.isFormElement()">{{::dateString(observation)}}</span>
+            </span>
+        </span>
+        <div ng-if="::observation.isTable()" class="field-value">
+            <tab observation = "::observation" patient="::patient" root-obs="::rootObservation" fixed="true"></tab> 
+        </div>
+        <div ng-if="::observation.isMedicationChart()" class="field-value">
+            <medication-chart observation = "::observation" patient="::patient" visit-uuid="visitUuid" fixed="true"></medication-chart>
+        </div>
+        <div ng-if="::observation.isDrugChart()" class="field-value">
+            <drug-chart observation = "::observation" patient="::patient" visit-uuid="visitUuid" fixed="true"></drug-chart>
+        </div>
+        <div ng-if="::observation.isTraumaChart()" class="field-value">
+            <trauma-chart observation = "::observation" patient="::patient" fixed="true"></trauma-chart>
+        </div>
+        <div ng-if="::observation.isCervicalMap()" class="field-value">
+            <cervical-map observation="::observation" patient="::patient" fixed="true"></cervical-map>
+        </div>
+          <div ng-if="::observation.isEndo()" class="field-value">
+                        <gastrointestinal-chart observation = "::observation" patient="::patient" visit-uuid="visitUuid" type="::'endo'"></gastrointestinal-chart>        
+        </div>
+          <div ng-if="::observation.isColon()" class="field-value">
+                        <gastrointestinal-chart observation = "::observation" patient="::patient" visit-uuid="visitUuid" type="::'colon'"></gastrointestinal-chart>        
+        </div>
+        <contraction-table ng-if="::(observation.isCChart())" observation = "::observation" patient="::patient" roo="::rootObservation"></contraction-table>
+        <a  ng-if="::(observation.isImageConcept() && !observation.hasPDFAsValue() && !print)" class="img-concept">
+            <img bm-observation-gallery-item observation="::observation" ng-src="{{::observation.value|thumbnail}}" alt="{{::observation.concept.name}}" />
+        </a>
+        <div ng-if="::observation.isChart()" class="field-value" style="float: left;">
+            <bchart observation = "::observation" patient="::patient" fixed="true"></bchart>
+        </div>
+        <a  ng-if="::(observation.isImageConcept() && observation.hasPDFAsValue() && !print)" ng-href="/document_images/{{observation.value}}" target="_blank" class="pdf-link">
+            <img src="../images/pdfIcon.png" alt="pdf" />
+        </a>
+        <div ng-if="::(observation.isVideoConcept())" class="hidden-print obs-video-thumb-container">
+            <img ng-src="{{observation.value|thumbnail:'jpg'}}">
+            <button class="obs-play-btn" ng-click="openVideoInPopup(observation)"><i class="fa fa-play-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+        <button ng-hide="observation.isImageConcept()" class="toggle fr" ng-if="observation.isFormElement() && showDetailsButton && !observation.comment" ng-class="{'has-notes': observation.comment}"
+                toggle="observation.showDetails">
+            <i class="fa fa-angle-down"></i>
+            <i class="fa fa-angle-up"></i>
+        </button>
+    </div>
+    <div ng-if="::observation.comment || observation.isImageConcept() " class="notes inline-comments" ng-class="::{'print-notes': observation.comment, 'image-notes': observation.isImageConcept()}">
+        <i class="fa fa-comments left"></i>
+        <pre ng-if="::observation.comment" class="left">{{::observation.comment}}</pre>
+        <div class="footer-note fr">
+                <span class="provider">
+                    <provider-directive
+                        creator-name="{{::observation.creatorName}}"
+                        provider-name="{{::observation.providers[0].name}}"
+                        provider-uuid="{{::observation.providers[0].uuid}}">
+                    </provider-directive>
+                <span ng-if="::observation.isFormElement()">{{::dateString(observation)}} </span>
+                </span>
+        </div>
+    </div>
+    <div ng-if="observation.showDetails" class="notes inline-notes" ng-class="::{'print-notes': observation.showDetails}">
+        <div class="footer-note fr">
+                <span class="provider">
+                    <provider-directive
+                        creator-name="{{::observation.creatorName}}"
+                        provider-name="{{::observation.providers[0].name}}"
+                        provider-uuid="{{::observation.providers[0].uuid}}">
+                    </provider-directive>
+                <span ng-if="::observation.isFormElement()">{{::dateString(observation)}}</span>
+            </span>
+
+        </div>
+    </div>
+    <div>
+        <ul ng-if="::(!observation.isFormElement() && !print && !observation.isAtypicalConcept())" class="hidden-print">
+            <show-observation  show-details-button="::showDetailsButton" ng-if="::!observation.isFormElement()" ng-repeat="member in observation.groupMembers"
+                              observation="::member" patient="::patient" show-date="::showDate" show-time="::showTime" ng-class="{'video-concept-show': member.isVideoConcept()}" root-observation="observation"></show-observation>
+        </ul>
+    </div>
+    <ul ng-if="::(!observation.isFormElement() && print && !observation.isAtypicalConcept())" class="visible-print">
+                <show-observation show-details-button="showDetailsButton" ng-if="::!observation.isFormElement()" ng-repeat="member in observation.groupMembers"
+                                   observation="::member" patient="::patient" show-date="::showDate" show-time="::showTime"></show-observation>
+    </ul>
+    <div ng-if="::observation.isAtypicalConcept()" class="field-value atypicalConcept" style="float: left;">
+        <graph ng-if="::(observation.isGraph())" observation = "::observation" patient="::patient" is-read-only="true"></graph>        
+        <horizontal-table ng-if="::(observation.isHTable())" observation = "::observation" patient="::patient"></horizontal-table>
+        <rich-text ng-if="::(observation.isRichText())" observation = "::observation" context = "true"></rich-text>        
+</div>
+</li>

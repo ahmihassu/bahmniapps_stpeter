@@ -1,0 +1,109 @@
+<div class="reg-header-wrapper header-wrapper">
+    <header class="reg-header" ng-controller="NavigationController">
+    <ul class="top-nav fl">
+        <a class="back-btn" accesskey="h" href="../home/index.html" ng-click="onHomeNavigate($event)"><i class="fa fa-home"></i></a>
+    </ul>
+    <div class="reg-header-right fr">
+        <div ui-view="headerExtension" class="print-action-items fl"></div>
+        <button class="btn-user-info fr">
+            <i class="fa fa-user-md fa-white small"></i>
+            <i class="fa fa-caret-down fa-white mini"></i>
+        </button>
+        <ul>
+            <li>
+                <a><i class="fa fa-user fa-white small"></i><span>{{:: currentUser.username}}</span></a>
+            </li>
+            <li>
+                <i class="fa fa-map-marker fa-white small"></i><span>{{:: currentUser.currentLocation | translate}}</span>
+            </li>
+            <li>
+                <a log-out><i class="fa fa-power-off fa-white small"></i><span class="nav-link">{{::'REGISTRATION_LABEL_LOGOUT' | translate}}</span></a>
+            </li>
+        </ul>
+    </div>
+</header>
+</div>
+
+<div class="container">
+<section class="reg-search-wrapper">
+    <section class="reg-search">
+        <article class="search-seperator-r">
+            <form name="searchByNameForm" ng-submit="searchPatients()" class="simple-form-ui" >
+                <article class="fl">
+                    <label for="registrationNumber"><strong>Registration Number</strong></label>
+                    <input tabindex="2" class="fl" type="text" id="registrationNumber"
+                           ng-model="searchParameters.registrationNumber" focus-me="true"
+                           placeholder="የካርድ ቁጥር አስገባ">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.firstName" placeholder="ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_FATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.fatherName" placeholder="የአባት ስም">
+                </article>
+                <article class="fl">
+                    <label for="name"><strong>{{ ::'REGISTRATION_LABEL_GFATHER_NAME' | translate}}</strong></label>
+                    <input tabindex="4" type="text" id="name" ng-model="searchParameters.grandFatherName" placeholder="የአያት ስም">
+                </article>
+                <article class="fl">
+                    <div class="reg-srch-btn">
+                        <button tabindex="5" type="submit">{{ ::'REGISTRATION_LABEL_SEARCH' | translate}}</button>
+                    </div>
+                </article>
+                
+
+
+
+            </form>
+
+        </article>
+    </section>
+
+    <div class="note-container no-search-results" ng-if="noResultsMessage">
+        <div class="note warning">
+            <div class="text">
+                <p>{{noResultsMessage | translate:patientIdentifier }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="resultsPresent()" infinite-scroll="nextPage()" infinite-scroll-listen-for-event="list:filtered" class="registraition-search-results-container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th><strong>Action</strong></th>
+                <th><strong>MRN</strong></th>
+                <th><strong>Name</strong></th>
+                <th><strong>Visit Type</strong></th>
+                <th><strong>Visit Start Date</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="result in results">
+                <td>
+                    <a tabindex="{{ :: 8 + $index + 1 }}" ng-if="::(searchActions.length > 0)" ng-href="../clinical/#/default/patient/{{result.puuid}}/dashboard/visit/{{result.vuuid}}/?from=fromMedico" target=”_blank”>
+                        Go to Visit Page
+                    </a>
+                </td>
+                <td>{{::result.identifier || 'Not Assigned'}}</td>
+                <td>{{::result.given_name}} {{::result.middle_name}} {{::result.family_name}}</td>
+                <td>{{::result.visit_type}}</td>
+                <td>{{::result.date_started}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="loader" ng-show="loadingMoreResults()"></div>
+
+    <div class="note-container no-more-results" ng-if="noMoreResultsPresent">
+        <div class="note warning">
+            <div class="text">
+                <p>{{ ::'REGISTRATION_LABEL_NO_RESULTS' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

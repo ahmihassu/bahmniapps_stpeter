@@ -1,0 +1,28 @@
+
+    <table class="mainTable" ng-if="roo">
+        <tr>
+            <th></th>
+            <th ng-repeat="label in timeLabels track by $index"><span>{{label}}</span></th>
+        </tr>
+        <tr ng-repeat = "rowofObs in tableData">
+            <th>{{rowofObs[0].name}}</th>
+            <th ng-repeat="inmember in rowofObs track by $index">
+                <select ng-if="inmember.dataType == 'Coded'" ng-model="inmember.value" ng-change="handleUpdate()">
+                    <option ng-repeat="answers in inmember.answers">{{answers}}</option>
+                </select>
+                <input ng-if="inmember.dataType == 'Numeric'" type="number" ng-model="inmember.value" ng-change="handleUpdate()">
+                </input>
+                <input ng-if="inmember.dataType == 'Text'" type="text" ng-model="inmember.value" ng-change="handleUpdate()">
+                </input>
+            </th>
+        </tr>
+    </table>
+    <div class = "visualTable" ng-if="!roo">
+        <div class = "cellColumn">
+            <div> </div>
+            <div ng-repeat = "label in allLabels">{{label}}</div>
+        </div>
+        <div class = "cellColumn" ng-repeat = "col in visualTable">
+            <div ng-repeat = "val in col track by $index">{{val}}</div>
+        </div>
+    </div>

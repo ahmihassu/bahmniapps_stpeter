@@ -1,0 +1,14 @@
+<div class="dashboard">
+    <div class="apps">
+        <ul style="font-size:18px; display: flex;justify-content: center;align-items: center;  width: 100%; height: 500px">
+            <li ng-repeat="extn in appExtensions" style="display: inline-block;">
+                <a ng-href="{{extn.url}}" class="button app big"><i class="fa {{extn.icon}}"></i>{{extn.label}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<style>body{
+    background-color: white;
+}
+</style>

@@ -1,0 +1,73 @@
+<div class="confirmation-dialog">
+    <style>
+        .confirmation-dialog {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            max-width: 450px;
+            padding: 20px;
+            margin: 0 auto;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        .confirmation-dialog h4 {
+            font-size: 2.2em; /* Larger font for header */
+            color: #dc3545; /* Red color for header */
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .confirmation-dialog p {
+            font-size: 1.4em; /* Adjusted font size for better readability */
+            margin: 15px 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .dialog-button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .secondary-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .secondary-button:hover {
+            background-color: #0056b3;
+        }
+        #modal-revise-button3 {
+            background-color: #dc3545;
+        }
+        #modal-revise-button3:hover {
+            background-color: #b02a37;
+        }
+        .ngdialog-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #856404;
+        }
+    </style>
+    <div class="ngdialog-close" ng-click="closeDialog()">×</div>
+    <div class="clearfix">
+        <h4 style="color: #dc3545;;font-size: 2.2em;margin-bottom: 15px;font-weight: bold;">{{'EMERGENCY_TRIAGE_UNCLOSED_VISIT_WARNING' | translate}}</h4>
+    </div>
+    <div class="transfer-section discharge-bed-section">
+        <p>The Selected patient has {{::numberOfACtiveVisits}} active visits. This task will require you to close all active visits before adding another active visits. Are you sure you want to close all visits and start a new one?</p>
+    </div>
+    <div class="dialog-button-group">   
+        <button id="modal-revise-button1" class="secondary-button" ng-click="visitCloseConfirmationCR()">{{'EMERGENCY_TRIAGE_CONFIRM_CLOSING_EXISITING_VISIT' | translate}}</button>
+        <button id="modal-revise-button3" class="secondary-button" ng-click="cancelConfirmationDialogCR()">{{'EMERGENCY_TRIAGE_CANCEL_CLOSING_EXISITING_VISIT' | translate}}</button>
+    </div>
+</div>

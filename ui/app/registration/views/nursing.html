@@ -1,0 +1,355 @@
+<div class="reg-body-wrapper visit-patient-page">
+  <div class="non-printable" xmlns="http://www.w3.org/1999/html">
+    <div>
+      <form
+        name="myForm"
+        ng-init="disableFormSubmitOnEnter()"
+        class="visit-patient"
+      >
+        <div class="box-container">
+          <legend class="registraion_legend first-registraion_legend">
+            <span class="mylegend"
+              ><strong
+                >{{ ::'REGISTRATION_LABEL_SUMMARY' | translate}}</strong
+              ></span
+            >
+          </legend>
+
+          <section>
+            <div class="form-field fl">
+              <div class="field-attribute">
+                <label for="patientId"
+                  >{{ ::patient.primaryIdentifier.identifierType.name }} :
+                </label>
+              </div>
+
+              <div class="field-value">
+                <label class="control-label"
+                  ><strong
+                    >{{::patient.primaryIdentifier.identifier}}</strong
+                  ></label
+                >
+              </div>
+
+              <div class="field-attribute">
+                <label class="control-label">Age: </label>
+              </div>
+
+              <div class="field-value">
+                <label class="control-label"
+                  ><strong
+                    >{{::patient.age.years}} Years {{::patient.age.months}}
+                    Months {{::patient.age.days}} Days</strong
+                  ></label
+                >
+              </div>
+
+              <div class="field-attribute">
+                <label class="control-label">Gender: </label>
+              </div>
+
+              <div class="field-value">
+                <label class="control-label"
+                  ><strong>{{::patient.gender}}</strong></label
+                >
+              </div>
+            </div>
+
+            <div class="form-field fl">
+              <div class="field-attribute">
+                <label class="control-label" for="patientName"
+                  >{{ ::'REGISTRATION_LABEL_PATIENT_NAME' | translate}} :
+                </label>
+              </div>
+
+              <div class="field-value">
+                <label class="control-label"
+                  ><strong>{{::patient.name}}</strong></label
+                >
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="box-container">
+          <section
+            class="observation-section"
+            style="width: 2000px"
+            ng-if="context"
+          >
+            <div class="button-group">
+              <button
+                ng-click="ToggleForm('Nursing forms')"
+                style="
+                  background-color: #fffefe;
+                  color: rgb(0, 0, 0);
+                  border: none;
+                  padding: 10px 20px;
+                  cursor: pointer;
+                  border-radius: 5px;
+                  font-size: 16px;
+                "
+              >
+                Nursing Forms
+              </button>
+
+              <br />
+            </div>
+
+            <div class="collapsible-container" ng-if="toggleNurseForms">
+              <button
+                style="
+                  background-color: #6b6e71;
+                  color: rgb(0, 0, 0);
+                  border: none;
+                  padding: 10px;
+                  margin-bottom: 5px;
+                  cursor: pointer;
+                  border-radius: 5px;
+                "
+                ng-click="collapsedNurse = !collapsedNurse"
+              >
+                Select a Form
+              </button>
+
+<div
+    class="concept-container"
+    style="
+        max-height: 300px;
+        overflow-y: auto;
+        border: 1px solid #625c5c;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 60%;
+    "
+    ng-show="!collapsedNurse"
+>
+    <!-- Header with title and controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <!-- Search Input -->
+            <input 
+                type="text" 
+                placeholder="Search concepts..."
+                ng-model="conceptSearch"
+                style="
+                    padding: 5px 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    min-width: 200px;
+                    font-family: inherit;
+                    font-size: 14px;
+                "
+                ng-change="$apply()"
+            />
+            <button 
+                ng-show="conceptSearch"
+                ng-click="conceptSearch = ''"
+                style="
+                    background: none;
+                    border: none;
+                    color: #999;
+                    cursor: pointer;
+                    font-size: 16px;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                "
+            >
+                ×
+            </button>
+        </div>
+    </div>
+
+    <!-- Pinned Concepts Section -->
+    <div ng-show="getPinnedConcepts().length > 0" style="margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; margin: 10px 0 5px 0;">
+            <span style="font-size: 14px; font-weight: 600; color: #666; margin-right: 8px;">
+                📌 Pinned Concepts
+            </span>
+            <span style="font-size: 12px; color: #999; background: #f0f0f0; padding: 1px 6px; border-radius: 10px;">
+                {{getPinnedConcepts().length}}
+            </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #ddd;">
+            <div 
+                ng-repeat="name in getPinnedConcepts() track by $index"
+                style="margin: 3px"
+            >
+                <div style="position: relative; display: inline-block;">
+                    <button
+                        class="concept-button pinned"
+                        ng-click="selectTemplate(name)"
+                        ng-style="{'font-size': fontSizes[name] || '15px'}"
+                        style="
+                            position: relative;
+                            padding: 8px 25px 8px 15px;
+                            background-color: #e8f5e9;
+                            border: 1px solid #4caf50;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-family: inherit;
+                            white-space: nowrap;
+                            color: #333;
+                            font-weight: 500;
+                        "
+                    >
+                        {{name}}
+                    </button>
+                    <button
+                        ng-click="togglePin(name)"
+                        style="
+                            position: absolute;
+                            right: 5px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: none;
+                            border: none;
+                            color: #4caf50;
+                            font-size: 12px;
+                            cursor: pointer;
+                            padding: 0;
+                            width: 16px;
+                            height: 16px;
+                            line-height: 16px;
+                        "
+                        title="Unpin"
+                    >
+                        📌
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Concepts Section -->
+    <div style="display: flex; flex-wrap: wrap" class="concept-list">
+        <div
+            ng-repeat="name in nursingConceptNames | filter:conceptSearch track by $index"
+            ng-if="!isPinned(name)"
+            style="margin: 3px"
+        >
+            <div style="position: relative; display: inline-block;">
+                <button
+                    class="concept-button"
+                    ng-click="selectTemplate(name)"
+                    ng-style="{'font-size': fontSizes[name] || '15px'}"
+                    style="
+                        padding: 8px 15px;
+                        background-color: #f5f5f5;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-family: inherit;
+                        white-space: nowrap;
+                        color: #333;
+                    "
+                >
+                    {{name}}
+                </button>
+                <button
+                    ng-click="togglePin(name)"
+                    style="
+                        position: absolute;
+                        right: -10px;
+                        top: -5px;
+                        background: white;
+                        border: 1px solid #ddd;
+                        border-radius: 50%;
+                        color: #999;
+                        font-size: 10px;
+                        cursor: pointer;
+                        padding: 1px 3px;
+                        width: 18px;
+                        height: 18px;
+                        line-height: 14px;
+                    "
+                    title="Pin this concept"
+                >
+                    📌
+                </button>
+            </div>
+        </div>
+        
+        <!-- No results message -->
+        <div 
+            ng-if="(nursingConceptNames | filter:conceptSearch).length === 0"
+            style="
+                width: 100%;
+                text-align: center;
+                padding: 20px;
+                color: #999;
+                font-style: italic;
+                font-size: 14px;
+            "
+        >
+            No concepts found for "{{conceptSearch}}"
+        </div>
+    </div>
+</div>
+
+              <br />
+
+              <div class="clearfix">
+                <article
+                  class="fl obs-section-form"
+                  ng-repeat="name in nursingConceptNames"
+                  ng-if="name == selectedTemplate"
+                >
+                  <p>{{name}}</p>
+
+                  <!-- <concept-set-group concept-set-name="::name"
+
+                                        required="::conceptSet.options.required" patient="patient"
+
+                                        observations="observations" obs-scope="::conceptSet.options.scope"
+
+                                        show-title="false" concept-set-focused="::$index === 0"></concept-set-group> -->
+
+                  <concept-set
+                    collapse-inner-sections="collapseInnerSections"
+                    observation="member"
+                    root-observation="rootObservation"
+                    patient="::patient"
+                    observations="observations"
+                    at-least-one-value-is-set="atLeastOneValueIsSet"
+                    concept-set-required="conceptSetRequired"
+                    class="ng-scope ng-isolate-scope"
+                    show-title="::true"
+                    collapse-inner-sections="collapseInnerSections"
+                    ng-if="!rootObservation.hidden"
+                    concept-set-name="::name"
+                    hide-abnormal-button="hideAbnormalButton"
+                  >
+                  </concept-set>
+                </article>
+              </div>
+            </div>
+
+            <br />
+          </section>
+
+          <div style="text-align: right; bottom: 40px; right: 40px">
+            <strong
+              >{{currentUser.person.personName.givenName + " " +
+              currentUser.person.personName.familyName}}</strong
+            >
+          </div>
+        </div>
+
+        <div class="submit-btn-container">
+          <div class="right">
+            <button ng-click="submit()" class="start-visit-button right">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <br />
+    </div>
+  </div>
+</div>
